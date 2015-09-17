@@ -84,6 +84,7 @@ public class FortuneService {
 			.getLogger(FortuneService.class);
 
 	@Autowired
+	@LoadBalanced
 	private RestTemplate restTemplate;
 
 	@HystrixCommand(fallbackMethod = "defaultFortune")
