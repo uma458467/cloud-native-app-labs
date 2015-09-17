@@ -12,7 +12,7 @@
 
 0. [Pivotal Web Services](https://run.pivotal.io/) Account
 
-0. [CF CLI](https://console.run.pivotal.io/tools)
+0. [`cf` CLI](https://console.run.pivotal.io/tools)
 
 OPTIONAL (BUT RECOMMENDED)
 
