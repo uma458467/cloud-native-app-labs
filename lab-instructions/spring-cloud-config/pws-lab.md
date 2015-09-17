@@ -197,7 +197,7 @@ When defining the `spring.cloud.config.uri` our app will first look for an envir
 
 ```bash
 $ mvn clean package
-$ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
+$ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route
 ```
 
 3) Create a user provided service.  This is the environment variable our application will read when running in PWS.  Make sure to use your config-server uri not the literal below.
