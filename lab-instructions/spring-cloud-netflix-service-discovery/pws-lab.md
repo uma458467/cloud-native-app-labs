@@ -291,7 +291,7 @@ $ mvn clean spring-boot:run
 $ mvn clean package
 ```
 
-2) Deploy `service-registry`.  Confirm it came up correctly.
+2) Deploy `service-registry`.  Confirm it came up correctly by visiting the uri.  The `--random-route` flag will generate a random uri for the `service-registry`.  Make note of it.  You will use it in the next step.
 
 ```bash
 $ cf push service-registry -p target/service-registry-0.0.1-SNAPSHOT.jar -m 512M --random-route
