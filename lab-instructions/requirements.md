@@ -8,13 +8,11 @@
 
 0. Experience with [Spring](https://spring.io/)
 
-0. Installation of `curl`
+0. Installation of [`curl`](http://curl.haxx.se/download.html)
 
 0. [Pivotal Web Services](https://run.pivotal.io/) Account
 
-0. [CF CLI](https://console.run.pivotal.io/tools)
-
-0. Completion of the [Spring Cloud Config Lab](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/spring-cloud-config/pws-lab.md)
+0. Installation of [`cf`](https://console.run.pivotal.io/tools)
 
 OPTIONAL (BUT RECOMMENDED)
 
