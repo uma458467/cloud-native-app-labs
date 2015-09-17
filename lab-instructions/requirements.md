@@ -8,7 +8,7 @@
 
 0. Experience with [Spring](https://spring.io/)
 
-0. Installation of `curl`
+0. Installation of [curl](http://curl.haxx.se/download.html)
 
 0. [Pivotal Web Services](https://run.pivotal.io/) Account
 
