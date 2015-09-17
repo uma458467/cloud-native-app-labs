@@ -207,9 +207,16 @@ $ cf cups config-server -p uri
 $ uri> http://config-server-sectarian-flasket.cfapps.io
 ```
 
-4) Bind services and start the `greeting-config` app
+4) Package the `greeting-config` application with Maven
 
 ```bash
+$ mvn clean package
+```
+
+5) Deploy the `greeting-config` to PWS & bind services:
+
+```bash
+$ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-config config-server
 $ cf start greeting-config
 ```
