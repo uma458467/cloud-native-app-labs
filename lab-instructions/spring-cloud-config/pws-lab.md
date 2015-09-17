@@ -50,7 +50,7 @@ $ git clone <Your fork of the cloud-native-app-labs repo>
 $ cd cloud-native-app-labs
 ```
 
-2) OPTIONAL STEP - Import applications into your IDE such as SpringSource Tool Suite.  Importing projects at the `cloud-native-app-labs` level is recommended because there are several projects. Otherwise, use your favorite editor.
+2) OPTIONAL STEP - Import applications into your IDE such as SpringSource Tool Suite (Import Existing Maven Projects).  Importing projects at the `cloud-native-app-labs` level is recommended because there are several projects. Otherwise, use your favorite editor.
 
 ### `config-server` Setup
 
@@ -181,30 +181,24 @@ spring:
 ```
 When defining the `spring.cloud.config.uri` our app will first look for an environment variable (`vcap.services.config-server.credentials.uri`), if not present then try to connect to a local config-server.
 
-2) Create a user provided service.  This is the environment variable our application will read when running in PWS.  Make sure to use your config-server uri not the literal below.
+
+2) Package and deploy the `config-server` to PWS:
+
+```bash
+$ mvn clean package
+$ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
+```
+
+3) Create a user provided service.  This is the environment variable our application will read when running in PWS.  Make sure to use your config-server uri not the literal below.
 
 ```bash
 $ cf cups config-server -p uri
 $ uri> http://config-server-sectarian-flasket.cfapps.io
 ```
 
-3) Package and deploy the `config-server` to PWS:
+4) Bind services and start the `greeting-config` app
 
 ```bash
-$ mvn clean package
-$ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route
-```
-
-4) Package the `greeting-config` application with Maven
-
-```bash
-$ mvn clean package
-```
-
-5) Deploy the `greeting-config` to PWS & bind services:
-
-```bash
-$ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-config config-server
 $ cf start greeting-config
 ```
