@@ -5,8 +5,8 @@
 - [Spring Cloud Config](#spring-cloud-config)
 	- [Requirements](#requirements)
 	- [Exercises](#exercises)
-		- [Setup the `app-config` Repo](#setup-the-app-config-repo)
-		- [Setup the `cloud-native-app-labs` Repo](#setup-the-cloud-native-app-labs-repo)
+		- [Set up the `app-config` Repo](#setup-the-app-config-repo)
+		- [Set up the `cloud-native-app-labs` Repo](#setup-the-cloud-native-app-labs-repo)
 		- [`config-server` Setup](#config-server-setup)
 		- [`greeting-config` Setup](#greeting-config-setup)
 		- [Deploy the `config-server` and `greeting-config` apps to PWS](#deploy-the-config-server-and-greeting-config-apps-to-pws)
@@ -23,7 +23,7 @@
 
 ## Exercises
 
-### Setup the `app-config` Repo
+### Set up the `app-config` Repo
 To start, we need a repository to hold our configuration.
 
 1) Fork the configuration repo to your account.  Browse to: https://github.com/pivotal-enablement/app-config.  Then fork the repo.
@@ -38,7 +38,9 @@ $ git clone <Your fork of the app-config repo>
 $ cd app-config
 ```
 
-### Setup the `cloud-native-app-labs` Repo
+Notice that this repository is basically empty. This repository will be the source of configuration data.
+
+### Set up the `cloud-native-app-labs` Repo
 1) Fork the labs repo to your account.  Browse to: https://github.com/pivotal-enablement/cloud-native-app-labs.  Then fork the repo.
 
 2) GitHub displays your new fork. Copy the HTTPS clone URL from your fork.
@@ -60,7 +62,7 @@ sure all projects are selected and click Finish.
 ### `config-server` Setup
 
 1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/config-server/pom.xml`
-By adding `spring-cloud-config-server` to the classpath this application is eligible to embed a config-server.
+By adding `spring-cloud-config-server` to the classpath, this application is eligible to embed a config-server.
 
 ```xml
 <dependency>
@@ -82,7 +84,7 @@ public class ConfigServerApplication {
 ```
 Note the `@EnableConfigServer` annotation.  That embeds the config-server.
 
-3) Set the Github repository for the `config-server`.  Edit the `$CLOUD_NATIVE_APP_LABS_HOME/config-server/src/main/resources/application.yml` file.
+3) Set the Github repository for the `config-server`. This will be the source of the configuration data. Edit the `$CLOUD_NATIVE_APP_LABS_HOME/config-server/src/main/resources/application.yml` file.
 
 ```yml
  server:
@@ -95,7 +97,7 @@ Note the `@EnableConfigServer` annotation.  That embeds the config-server.
          git:
            uri: https://github.com/d4v3r/app-config.git #<-- CHANGE ME
 ```
-Make sure to substitute your forked repository.  Do not use the literal above.
+Make sure to substitute your forked app-config repository. Do not use the literal above.
 
 4) Start the `config-server`.
 
@@ -104,7 +106,11 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
-5) Confirm the config-server is working properly.
+Your config server will be running locally once you see a "Started ConfigServerApplication..." message. You
+will not be returned to a command prompt and must leave this window open.
+
+5) Confirm the config-server is working properly by displaying the default configuration information. Open a new terminal
+window and execute the following curl statement:
 
 ```bash
 $ curl -i http://localhost:8888/greeting-config/default
@@ -126,12 +132,12 @@ Connection: keep-alive
   "propertySources": []
 }
 ```
-This can also be done via the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
+This can also be done in a browser via the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
 
 ### `greeting-config` Setup
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/geeting-config/pom.xml`
-By adding `spring-cloud-starter-config` to the classpath this application will consume configuration from the config-server.  `greeting-config` is a config client.
+1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`
+By adding `spring-cloud-starter-config` to the classpath, this application will consume configuration from the config-server.  `greeting-config` is a config client.
 
 ```xml
 <dependency>
@@ -168,7 +174,7 @@ $ curl http://localhost:8080
 </html>
 ```
 
-5) Stop the `config-server` and `greeting-config` applications
+5) Stop the `config-server` and `greeting-config` applications.
 
 
 ### Deploy the `config-server` and `greeting-config` apps to PWS
