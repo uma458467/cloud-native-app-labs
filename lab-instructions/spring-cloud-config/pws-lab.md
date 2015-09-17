@@ -193,7 +193,7 @@ spring:
 When defining the `spring.cloud.config.uri` our app will first look for an environment variable (`vcap.services.config-server.credentials.uri`), if not present then try to connect to a local config-server.
 
 
-2) Package and deploy the `config-server` to PWS:
+2) Package and deploy the `config-server` to PWS.  The `--random-route` flag will generate a random uri for the `config-server`.  Make note of it.  You will use it in the next step.
 
 ```bash
 $ mvn clean package
