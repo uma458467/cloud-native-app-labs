@@ -54,9 +54,8 @@ $ cd cloud-native-app-labs
 
 2) OPTIONAL STEP - Import applications into your IDE such as Spring Tool Suite (STS).  Importing projects at the `cloud-native-app-labs` level is recommended because there are several projects. Otherwise, use your favorite editor.
 
-Here are the basic steps for STS. On the Workspace Launcher, browse to your cloud-native-app-labs directory and click OK.
-If the Project Explorer tab is not showing, select Window > Show View > Project Explorer. Select File > Import... Then select
-Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your cloud-native-app-labs directory. Make
+*Import Help*
+Select File > Import... Then select Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your cloud-native-app-labs directory. Make
 sure all projects are selected and click Finish.
 
 ### `config-server` Setup
