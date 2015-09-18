@@ -153,7 +153,7 @@ spring:
   application:
     name: greeting-config
 ```
-Note there is no `spring.cloud.config.uri` defined. It defaults to `http://localhost:8888`.
+Note there is no `spring.cloud.config.uri` defined. `spring.cloud.config.uri` defines how `greeting-config` reaches the `config-server`.  `spring.cloud.config.uri` defaults to `http://localhost:8888`.
 
 3) Open a new terminal window.  Start the `greeting-config` application.
 
@@ -162,17 +162,14 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
 $ mvn clean spring-boot:run
 ```
 
-4) Confirm the `greeting-config` app is working properly.  You should see a "Greetings!!!" message.
+4) Confirm the `greeting-config` app is working properly.  Browse to http://localhost:8080  You should see a "Greetings!!!" message.  At this point, you connected the `greeting-config` application with the `config-server`.  This can be confirmed by reviewing the logs of the `greeting-config` application.
 
-```bash
-$ curl http://localhost:8080
-<!DOCTYPE html>
-<html>
- <body>
-   <h1>Greetings!!!</h1>
- </body>
-</html>
+`greeting-config` log output:
 ```
+2015-09-18 13:48:50.147  INFO 15706 --- [lication.main()] b.c.PropertySourceBootstrapConfiguration : Located property source: CompositePropertySource [name='configService', propertySources=[]]
+```
+
+Configuration parameters/values will be added as we move through the lab.
 
 5) Stop the `config-server` and `greeting-config` applications.
 
