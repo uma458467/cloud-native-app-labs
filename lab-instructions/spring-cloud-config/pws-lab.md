@@ -162,7 +162,7 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
 $ mvn clean spring-boot:run
 ```
 
-4) Confirm the `greeting-config` app is working properly.  Browse to [http://localhost:8080]  You should see a "Greetings!!!" message.  At this point, you connected the `greeting-config` application with the `config-server`.  This can be confirmed by reviewing the logs of the `greeting-config` application.
+4) Confirm the `greeting-config` app is working properly.  Browse to [http://localhost:8080](http://localhost:8080)  You should see a "Greetings!!!" message.  At this point, you connected the `greeting-config` application with the `config-server`.  This can be confirmed by reviewing the logs of the `greeting-config` application.
 
 `greeting-config` log output:
 ```
