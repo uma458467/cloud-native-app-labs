@@ -106,7 +106,7 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
-Your config server will be running locally once you see a "Started ConfigServerApplication..." message. You
+Your config-server will be running locally once you see a "Started ConfigServerApplication..." message. You
 will not be returned to a command prompt and must leave this window open.
 
 5) Confirm the config-server is working properly by displaying the default configuration information. Open a new terminal
@@ -153,9 +153,9 @@ spring:
   application:
     name: greeting-config
 ```
-Note there is no `spring.cloud.config.uri` defined. `spring.cloud.config.uri` defines how `greeting-config` reaches the `config-server`.  `spring.cloud.config.uri` defaults to `http://localhost:8888`.
+In the bootstrap.yml, `spring.cloud.config.ui` defines how greeting-config reaches the `config-server`. Since there is no `spring.cloud.config.ui` defined in this file, the default value of `http://localhost:8888` is used. Notice that this uses the same host and port as the curl statement used when you tested the config-server directly.
 
-3) Open a new terminal window.  Start the `greeting-config` application.
+3) Open a new terminal window.  Start the `greeting-config` application:
 
 ```bash
 $ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
@@ -166,7 +166,8 @@ $ mvn clean spring-boot:run
 
 `greeting-config` log output:
 ```
-2015-09-18 13:48:50.147  INFO 15706 --- [lication.main()] b.c.PropertySourceBootstrapConfiguration : Located property source: CompositePropertySource [name='configService', propertySources=[]]
+2015-09-18 13:48:50.147  INFO 15706 --- [lication.main()] b.c.PropertySourceBootstrapConfiguration :
+Located property source: CompositePropertySource [name='configService', propertySources=[]]
 ```
 
 Configuration parameters/values will be added as we move through the lab.
@@ -187,41 +188,53 @@ spring:
     config:
       uri: ${vcap.services.config-server.credentials.uri:http://localhost:8888}
 ```
-When defining the `spring.cloud.config.uri` our app will first look for an environment variable (`vcap.services.config-server.credentials.uri`), if not present then try to connect to a local config-server.
+When defining the `spring.cloud.config.uri`, our app will first look for an environment variable (`vcap.services.config-server.credentials.uri`). If it is not present, it will try to connect to a local config-server.
 
-
-2) Package and deploy the `config-server` to PWS.  The `--random-route` flag will generate a random uri for the `config-server`.  Make note of it.  You will use it in the next step.
+2) Package and deploy the `config-server` to PWS.  The `--random-route` flag will generate a random uri for the `config-server`.  Make note of it.  You will use it in the next step. Make sure you are targeting your PWS account and execute the following from
+the `config-server` directory:
 
 ```bash
 $ mvn clean package
 $ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route
 ```
 
-3) Create a user provided service.  This is the environment variable our application will read when running in PWS.  Make sure to use your config-server uri not the literal below.
+3) Create a user-provided service.  This service connects to your `config-server` application, and exposes the values in the
+`config-server` as environment variables. Make sure to use your config-server uri, not the literal below.
 
 ```bash
 $ cf cups config-server -p uri
 $ uri> http://config-server-sectarian-flasket.cfapps.io
 ```
 
-4) Package the `greeting-config` application with Maven
+4) Package the `greeting-config` application. Execute the following from the `greeting-config` directory:
 
 ```bash
 $ mvn clean package
 ```
 
-5) Deploy the `greeting-config` to PWS & bind services:
+5) Deploy the `greeting-config` application to PWS, without starting the application:
 
 ```bash
 $ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
+```
+6) Bind the `config-server` service to the `greeting-config` app. This will enable the `greeting-config` app to read
+configuration values from the `config-server` using environment variables.
+
+```bash
 $ cf bind-service greeting-config config-server
+```
+
+7) Restage and start the `greeting-config` app. The proper environment variables will be set.
+
+```bash
+$ cf restage greeting-config
 $ cf start greeting-config
 ```
 
 ### Changing Logging Levels
 Logging levels are reset automatically when the environment changes.
 
-1) Review the logout put when hitting the `/` endpoint
+1) Review the log output when hitting the `/` endpoint.
 ```bash
 $ cf logs greeting-config
 ```
@@ -427,7 +440,7 @@ logging:
       pivotal: INFO
 ```
 
-8) Nofify applications to pickup the change.  Send a POST to `/bus/refresh`
+8) Notify applications to pickup the change.  Send a POST to `/bus/refresh`
 ```bash
 $ curl -X POST http://greeting-config-hypodermal-subcortex.cfapps.io/bus/refresh
 ```
