@@ -224,23 +224,25 @@ configuration values from the `config-server` using environment variables.
 $ cf bind-service greeting-config config-server
 ```
 
-7) Restage and start the `greeting-config` app. The proper environment variables will be set.
+7) Restage the `greeting-config` app. The proper environment variables will be set.
 
 ```bash
 $ cf restage greeting-config
-$ cf start greeting-config
 ```
+
+8) Verify that the your `greeting-config` app shows "Greetings!!!" on PWS.
 
 ### Changing Logging Levels
 Logging levels are reset automatically when the environment changes.
 
-1) Review the log output when hitting the `/` endpoint.
+1) Start tailing logs when hitting the `/` endpoint:
 ```bash
 $ cf logs greeting-config
 ```
-Nothing application specific.  Just log messages from the router.  How can we see application debug logs?
+Refresh the `greeting-config` browser window. Notice that the logs are mainly from the Router [RTR]. Next, you will set up
+application-specific logging.
 
-2) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`
+2) View the getGreeting() method of  `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`
  ```java
 @RequestMapping("/")
 String getGreeting(Model model){
@@ -259,7 +261,7 @@ String getGreeting(Model model){
 ```
 We want to see these debug messages.
 
-3) Review what the config-server is serving up.  Use your `config-server` url, not the literal below.
+3) View the output of the config-server.  Use your `config-server` url, not the literal below.
 
 ```bash
 $ curl http://config-server-sectarian-flasket.cfapps.io/greeting-config/cloud
@@ -292,7 +294,7 @@ quoteServiceURL: http://quote-service-dev.cfapps.io/quote
 $ cf logs greeting-config
 ```
 
-6) Review what the config-server is serving up.  Use your `config-server` url, not the literal below.
+6) View the output of the config-server.  Use your `config-server` url, not the literal below.
 
 ```bash
 $ curl http://config-server-sectarian-flasket.cfapps.io/greeting-config/cloud
