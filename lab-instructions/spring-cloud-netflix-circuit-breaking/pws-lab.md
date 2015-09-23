@@ -7,6 +7,7 @@
 	- [Exercises](#exercises)
 		- [Start the  `config-server`,  `service-registry`, and `fortune-service`](#start-the-config-server-service-registry-and-fortune-service)
 		- [Setup `greeting-hystrix`](#setup-greeting-hystrix)
+		- [Setup the `greeting-hystrix` metric stream](#setup-the-greeting-hystrix-metric-stream)
 		- [Setup `hystrix-dashboard`](#setup-hystrix-dashboard)
 		- [Setup `turbine`](#setup-turbine)
 		- [Deploying to PWS](#deploying-to-pws)
@@ -117,9 +118,19 @@ $ mvn clean spring-boot:run
 
 7) Restart the `fortune-service`.  And refresh the `greeting-hystrix` `/` endpoint again.  Fortunes from the `fortune-service` are back.
 
+### Setup the `greeting-hystrix` metric stream
+
+Being able to monitor the state of our circuit breakers is highly valuable, but first the `greeting-hystrix` application must expose the metrics.
+
+This is accomplished by including the `actuator` dependency in the `greeting-hystrix` `pom.xml`.
+
+1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/pom.xml` file.  By adding `spring-boot-starter-actuator` to the classpath this application will publish metrics at the `/hystrix.stream` endpoint.
+
+2) Browse to [http://localhost:8080/hystrix.stream](http://localhost:8080/hystrix.stream) to review the metric stream.
+
 ### Setup `hystrix-dashboard`
 
-Being able to monitor the state of our circuit breakers is highly valuable.  We can do this with the Hystrix Dashboard.
+Consuming the metric stream is difficult to interpret on our own.  The metric stream can be visualized with the Hystrix Dashboard.
 
 1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/hystrix-dashboard/pom.xml` file.  By adding `spring-cloud-starter-hystrix-dashboard` to the classpath this application is exposes a Hystrix Dashboard.
 
