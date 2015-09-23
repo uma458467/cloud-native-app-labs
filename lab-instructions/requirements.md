@@ -4,13 +4,15 @@
 
 0. Installation of [Maven](https://maven.apache.org/)
 
-0. Installation and experience with [git](https://git-scm.com/) and [github](https://github.com/)
+0. Installation and experience with [git](https://git-scm.com/) and 
+
+0. [Github Account](https://github.com/)
 
 0. Experience with [Spring](https://spring.io/)
 
 0. Installation of [`curl`](http://curl.haxx.se/download.html)
 
-0. [Pivotal Web Services](https://run.pivotal.io/) Account
+0. [Pivotal Web Services Account](https://run.pivotal.io/) 
 
 0. Installation of [`cf`](https://console.run.pivotal.io/tools)
 
