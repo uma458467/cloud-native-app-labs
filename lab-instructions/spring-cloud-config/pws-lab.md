@@ -110,7 +110,7 @@ will not be returned to a command prompt and must leave this window open.
 
 Open a browser window fetch the following url: http://localhost:8888/greeting-config/default
 
-![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API")
+![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API") <!-- .element: style="border:1px solid black;" -->
 
 #### What Just Happened?
 
