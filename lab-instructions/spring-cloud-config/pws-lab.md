@@ -106,11 +106,11 @@ $ mvn clean spring-boot:run
 Your config-server will be running locally once you see a "Started ConfigServerApplication..." message. You
 will not be returned to a command prompt and must leave this window open.
 
-5) Confirm the `config-server` is up and configured with a backing git repository by calling its restful api.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
+5) Confirm the `config-server` is up and configured with a backing git repository by calling its restful API.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
 
 Open a browser window fetch the following url: [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
 
-![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API")
+<img src="/pivotal-enablement/cloud-native-app-labs/raw/master/lab-instructions/spring-cloud-config/resources/images/restful-api.png" alt="Config Server - Restful API" title="Config Server - Restful API" style="max-width:100%;border:1px solid black;">
 
 #### What Just Happened?
 
