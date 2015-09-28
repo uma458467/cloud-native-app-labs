@@ -1,25 +1,22 @@
 # Spring Cloud Config
 
-<!-- TOC depth:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Spring Cloud Config](#spring-cloud-config)
-	- [Requirements](#requirements)
-	- [Exercises](#exercises)
-		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
-		- [Set up the `cloud-native-app-labs` Repo](#set-up-the-cloud-native-app-labs-repo)
-		- [`config-server` Setup](#config-server-setup)
-		- [`greeting-config` Setup](#greeting-config-setup)
-		- [Deploy the `config-server` and `greeting-config` apps to PWS](#deploy-the-config-server-and-greeting-config-apps-to-pws)
-		- [Changing Logging Levels](#changing-logging-levels)
-		- [`@ConfigurationProperties`](#configurationproperties)
-		- [`@RefreshScope`](#refreshscope)
-		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
-		- [Cloud Bus](#cloud-bus)
-<!-- /TOC -->
 
 ## Requirements
 
 [Lab Requirements](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/requirements.md)
+
+## What You Will Learn
+
+* How to set up a git repository to hold configuration data
+* How to set up a config server (`config-server`) with a Git backend
+* How to set up a client (`greeting-config`) to pull configuration from the `config-server`
+* How to change log levels for a running application (`greeting-config`)
+* How to use `@ConfigurationProperties` to capture configuration changes (`greeting-config`)
+* How to use `@RefreshScope` to capture configuration changes (`greeting-config`)
+* How to override configuration values by profile (`greeting-config`)
+* How to use Cloud Bus to update application configuration at scale
+
 
 ## Exercises
 
@@ -34,7 +31,7 @@ To start, we need a repository to hold our configuration.
 3) Open a new terminal window and clone the fork you just created:
 
 ```bash
-$ git clone <Your fork of the app-config repo>
+$ git clone <Your fork of the app-config repo - HTTPS clone URL>
 $ cd app-config
 ```
 
@@ -48,7 +45,7 @@ Notice that this repository is basically empty. This repository will be the sour
 3) Open a new terminal window.  Clone the following repo.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.
 
 ```bash
-$ git clone <Your fork of the cloud-native-app-labs repo>
+$ git clone <Your fork of the cloud-native-app-labs repo - HTTPS clone URL>
 $ cd cloud-native-app-labs
 ```
 
@@ -59,7 +56,7 @@ $ cd cloud-native-app-labs
 Select File > Import... Then select Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your cloud-native-app-labs directory. Make
 sure all projects are selected and click Finish.
 
-### `config-server` Setup
+### Set up `config-server`
 
 1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/config-server/pom.xml`
 By adding `spring-cloud-config-server` to the classpath, this application is eligible to embed a config-server.
@@ -109,32 +106,20 @@ $ mvn clean spring-boot:run
 Your config-server will be running locally once you see a "Started ConfigServerApplication..." message. You
 will not be returned to a command prompt and must leave this window open.
 
-5) Confirm the config-server is working properly by displaying the default configuration information. Open a new terminal
-window and execute the following curl statement:
+5) Confirm the `config-server` is up and configured with a backing git repository by calling its restful api.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
 
-```bash
-$ curl -i http://localhost:8888/greeting-config/default
-HTTP/1.1 200 OK
-Content-Type: application/json;charset=UTF-8
-Date: Fri, 21 Aug 2015 19:55:42 GMT
-Server: Apache-Coyote/1.1
-X-Application-Context: config-server:cloud:0
-X-Cf-Requestid: fe5d6055-274f-405b-481b-3a4455e58c38
-Content-Length: 308
-Connection: keep-alive
+Open a browser window fetch the following url: http://localhost:8888/greeting-config/default
 
-{
-  "name": "greeting-config",
-  "profiles": [
-    "default"
-  ],
-  "label": "master",
-  "propertySources": []
-}
-```
-This can also be done in a browser via the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
+![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API")
 
-### `greeting-config` Setup
+#### What Just Happened?
+
+The `config-server` is a RESTful application. There are several REST based endpoints exposed to fetch configuration.
+
+In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our client application `greeting-config` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  Because there is no configuration in the git repository none is returned.
+
+
+### Set up `greeting-config`
 
 1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`
 By adding `spring-cloud-starter-config` to the classpath, this application will consume configuration from the config-server.  `greeting-config` is a config client.
@@ -153,7 +138,7 @@ spring:
   application:
     name: greeting-config
 ```
-In the bootstrap.yml, `spring.cloud.config.ui` defines how greeting-config reaches the `config-server`. Since there is no `spring.cloud.config.ui` defined in this file, the default value of `http://localhost:8888` is used. Notice that this uses the same host and port as the curl statement used when you tested the config-server directly.
+In the bootstrap.yml, `spring.cloud.config.uri` defines how greeting-config reaches the `config-server`. Since there is no `spring.cloud.config.uri` defined in this file, the default value of `http://localhost:8888` is used.  Notice that this is the same host and port of the `config-server` application.
 
 3) Open a new terminal window.  Start the `greeting-config` application:
 
@@ -162,13 +147,21 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
 $ mvn clean spring-boot:run
 ```
 
-4) Confirm the `greeting-config` app is working properly.  Browse to [http://localhost:8080](http://localhost:8080)  You should see a "Greetings!!!" message.  At this point, you connected the `greeting-config` application with the `config-server`.  This can be confirmed by reviewing the logs of the `greeting-config` application.
+4) Confirm the `greeting-config` app is up.  Browse to [http://localhost:8080](http://localhost:8080)  You should see a "Greetings!!!" message.  
+
+![greeting-config](resources/images/greeting-config.png "greeting-config")
+
+#### What Just Happened?
+
+At this point, you connected the `greeting-config` application with the `config-server`.  This can be confirmed by reviewing the logs of the `greeting-config` application.
 
 `greeting-config` log output:
 ```
 2015-09-18 13:48:50.147  INFO 15706 --- [lication.main()] b.c.PropertySourceBootstrapConfiguration :
 Located property source: CompositePropertySource [name='configService', propertySources=[]]
 ```
+
+There is still no configuration in the git repo, but at this point we have everything wired up (`greeting-config` → `config-server` → `app-config` repo) so we can add configuration parameters/values and see the effects in out client application `greeting-config`.
 
 Configuration parameters/values will be added as we move through the lab.
 
