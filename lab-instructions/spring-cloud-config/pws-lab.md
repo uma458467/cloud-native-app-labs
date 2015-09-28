@@ -110,7 +110,7 @@ will not be returned to a command prompt and must leave this window open.
 
 Open a browser window fetch the following url: [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
 
-<img src="/pivotal-enablement/cloud-native-app-labs/raw/master/lab-instructions/spring-cloud-config/resources/images/restful-api.png" alt="Config Server - Restful API" title="Config Server - Restful API" style="max-width:100%;border:1px solid black;">
+<img src="resources/images/restful-api.png" alt="Config Server - Restful API" title="Config Server - Restful API" style="max-width:100%;border:1px solid black;">
 
 #### What Just Happened?
 
