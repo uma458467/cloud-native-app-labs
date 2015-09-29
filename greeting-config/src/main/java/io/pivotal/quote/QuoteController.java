@@ -16,7 +16,7 @@ public class QuoteController {
 	@Autowired
 	private QuoteService quoteService;
 
-	@RequestMapping("/quote-of-the-day")
+	@RequestMapping("/random-quote")
 	String getView(Model model) {
 	
 		model.addAttribute("quote", quoteService.getQuote());
