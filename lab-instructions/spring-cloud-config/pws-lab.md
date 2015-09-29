@@ -11,11 +11,11 @@
 		- [Set up `config-server`](#set-up-config-server)
 		- [Set up `greeting-config`](#set-up-greeting-config)
 		- [Changing Logging Levels](#changing-logging-levels)
-		- [Turning on Feature with `@ConfigurationProperties`](#turning-on-feature-with-configurationproperties)
+		- [Turning on a Feature with `@ConfigurationProperties`](#turning-on-a-feature-with-configurationproperties)
 		- [Reinitializing Beans with `@RefreshScope`](#reinitializing-beans-with-refreshscope)
 		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
 		- [Deploy the `config-server` and `greeting-config` apps to PWS](#deploy-the-config-server-and-greeting-config-apps-to-pws)
-		- [Cloud Bus](#cloud-bus)
+		- [Refreshing Application Configuration at Scale with Cloud Bus](#refreshing-application-configuration-at-scale-with-cloud-bus)
 <!-- /TOC -->
 
 ## Requirements
@@ -245,7 +245,7 @@ $ curl -X POST http://localhost:8080/refresh
 7) Refresh the `greeting-config` [http://localhost:8080](http://localhost:8080/) url while viewing the `greeting-config` terminal.  You should see the debug line "Adding greeting"
 
 
-### Turning on Feature with `@ConfigurationProperties`
+### Turning on a Feature with `@ConfigurationProperties`
 
 Use of `@ConfigurationProperties` is common way to externalize and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
 
@@ -484,7 +484,7 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 
 Then confirm quotes are being served from ``http://quote-service-qa.cfapps.io/quote``
 
-### Cloud Bus
+### Refreshing Application Configuration at Scale with Cloud Bus
 
 Until now you have been notifying your application to pickup new configuration by POSTing to the `/refresh` endpoint.
 
