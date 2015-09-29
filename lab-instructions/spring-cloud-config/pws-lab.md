@@ -9,14 +9,11 @@
 		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
 		- [Set up the `cloud-native-app-labs` Repo](#set-up-the-cloud-native-app-labs-repo)
 		- [Set up `config-server`](#set-up-config-server)
-			- [What Just Happened?](#what-just-happened)
 		- [Set up `greeting-config`](#set-up-greeting-config)
-			- [What Just Happened?](#what-just-happened)
 		- [Changing Logging Levels](#changing-logging-levels)
 		- [`@ConfigurationProperties`](#configurationproperties)
 		- [`@RefreshScope`](#refreshscope)
 		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
-			- [What Just Happened?](#what-just-happened)
 		- [Deploy the `config-server` and `greeting-config` apps to PWS](#deploy-the-config-server-and-greeting-config-apps-to-pws)
 		- [Cloud Bus](#cloud-bus)
 <!-- /TOC -->
@@ -131,7 +128,7 @@ Open a browser window fetch the following url: [http://localhost:8888/greeting-c
 
 ![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API")
 
-#### What Just Happened?
+ **What Just Happened?**
 
 The `config-server` is a RESTful application. There are several REST based endpoints exposed to fetch configuration.
 
@@ -170,7 +167,7 @@ $ mvn clean spring-boot:run
 
 ![greeting-config](resources/images/greeting-config.png "greeting-config")
 
-#### What Just Happened?
+***What Just Happened?***
 
 At this point, you connected the `greeting-config` application with the `config-server`.  This can be confirmed by reviewing the logs of the `greeting-config` application.
 
@@ -416,7 +413,7 @@ $ curl -X POST http://localhost:8080/refresh
 5) Refresh the [http://localhost:8080/random-quote](http://localhost:8080/random-quote) url.  Quotes are now being served from QA.  
 when done stop both the `config-server` and `greeting-config` applications.
 
-#### What Just Happened?
+***What Just Happened?***
 
 Configuration from `greeting-config.yml` was overridden by a configuration file that was more specific (`greeting-config-qa.yml`).
 
