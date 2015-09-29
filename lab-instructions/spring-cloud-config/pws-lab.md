@@ -11,8 +11,8 @@
 		- [Set up `config-server`](#set-up-config-server)
 		- [Set up `greeting-config`](#set-up-greeting-config)
 		- [Changing Logging Levels](#changing-logging-levels)
-		- [`@ConfigurationProperties`](#configurationproperties)
-		- [`@RefreshScope`](#refreshscope)
+		- [Turning on Feature with `@ConfigurationProperties`](#turning-on-feature-with-configurationproperties)
+		- [Reinitializing Beans with `@RefreshScope`](#reinitializing-beans-with-refreshscope)
 		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
 		- [Deploy the `config-server` and `greeting-config` apps to PWS](#deploy-the-config-server-and-greeting-config-apps-to-pws)
 		- [Cloud Bus](#cloud-bus)
@@ -31,7 +31,7 @@
 * How to use `@ConfigurationProperties` to capture configuration changes (`greeting-config`)
 * How to use `@RefreshScope` to capture configuration changes (`greeting-config`)
 * How to override configuration values by profile (`greeting-config`)
-* How to use Cloud Bus to notify applications to refresh configuration at scale
+* How to use Cloud Bus to notify applications (`greeting-config`) to refresh configuration at scale
 
 
 ## Exercises
@@ -245,7 +245,7 @@ $ curl -X POST http://localhost:8080/refresh
 7) Refresh the `greeting-config` [http://localhost:8080](http://localhost:8080/) url while viewing the `greeting-config` terminal.  You should see the debug line "Adding greeting"
 
 
-### `@ConfigurationProperties`
+### Turning on Feature with `@ConfigurationProperties`
 
 Use of `@ConfigurationProperties` is common way to externalize and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
 
@@ -326,7 +326,7 @@ $ curl -X POST http://localhost:8080/refresh
 
 5) Then refresh the [http://localhost:8080](http://localhost:8080/) url and see the fortune included.
 
-### `@RefreshScope`
+### Reinitializing Beans with `@RefreshScope`
 
 Beans annotated with the  `@ResfreshScope` will be recreated when refreshed so they can pickup new config values.
 
