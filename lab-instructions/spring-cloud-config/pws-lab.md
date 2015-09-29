@@ -1,6 +1,25 @@
 # Spring Cloud Config
 
+<!-- TOC depth:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Spring Cloud Config](#spring-cloud-config)
+	- [Requirements](#requirements)
+	- [What You Will Learn](#what-you-will-learn)
+	- [Exercises](#exercises)
+		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
+		- [Set up the `cloud-native-app-labs` Repo](#set-up-the-cloud-native-app-labs-repo)
+		- [Set up `config-server`](#set-up-config-server)
+			- [What Just Happened?](#what-just-happened)
+		- [Set up `greeting-config`](#set-up-greeting-config)
+			- [What Just Happened?](#what-just-happened)
+		- [Changing Logging Levels](#changing-logging-levels)
+		- [`@ConfigurationProperties`](#configurationproperties)
+		- [`@RefreshScope`](#refreshscope)
+		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
+			- [What Just Happened?](#what-just-happened)
+		- [Deploy the `config-server` and `greeting-config` apps to PWS](#deploy-the-config-server-and-greeting-config-apps-to-pws)
+		- [Cloud Bus](#cloud-bus)
+<!-- /TOC -->
 
 ## Requirements
 
