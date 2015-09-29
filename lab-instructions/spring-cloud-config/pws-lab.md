@@ -450,7 +450,7 @@ $ cf bind-service greeting-config config-server
 $ cf start greeting-config
 ```
 
-8) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on on PWS?
+8) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on PWS?
 
 * Is the log level for `io.pivotal` package set to `DEBUG`?  Yes, this can be confirmed with `cf logs` command while refreshing the `greeting-config` `/` endpoint.
 * Is `greeting-config` app displaying the fortune?  Yes, this can be confirmed by visiting the `greeting-config` `/` endpoint.
@@ -460,8 +460,9 @@ $ cf start greeting-config
 $ cf set-env greeting-config SPRING_PROFILES_ACTIVE qa
 $ cf restart greeting-config
 ```
-
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged but just re-started.
+
+Then confirm quotes are being served from ``http://quote-service-qa.cfapps.io/quote``
 
 ### Cloud Bus
 
