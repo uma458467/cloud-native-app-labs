@@ -112,7 +112,7 @@ Open a browser window fetch the following url: [http://localhost:8888/greeting-c
 
 ![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API")
 
- **What Just Happened?**
+***What Just Happened?***
 
 The `config-server` is a RESTful application. There are several REST based endpoints exposed to fetch configuration.
 
@@ -150,7 +150,7 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/greeting-config
 $ mvn clean spring-boot:run
 ```
 
-4) Confirm the `greeting-config` app is up.  Browse to [http://localhost:8080](http://localhost:8080)  You should see a "Greetings!!!" message.  
+4) Confirm the `greeting-config` app is up.  Browse to [http://localhost:8080](http://localhost:8080).  You should see a "Greetings!!!" message.  
 
 ![greeting-config](resources/images/greeting-config.png "greeting-config")
 
