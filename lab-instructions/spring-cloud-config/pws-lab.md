@@ -233,10 +233,7 @@ $ curl -X POST http://localhost:8080/refresh
 
 Use of `@ConfigurationProperties` is common way to externalize and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
 
-1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingProperties.java` &
-`$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`
-Note how the `greeting.displayFortune` is used to turn a feature on/off.
-There are times when you want to turn features on/off on demand.  In this case, we want the fortune feature "on" with our greeting.  In this case, we will use `@ConfigurationProperties` to achieve this.
+1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingProperties.java`.  Use of the `@ConfigurationProperties` annotation allows for reading of configuration values.  Configuration keys are a combination of the `prefix` and the field names.  In this case, there is one field (`displayFortune`).  Therefore `greeting.displayFortune` is used to turn the display of fortunes on/off.  Remaining code is typical getter/setters for the fields.
 
 ```java
 @ConfigurationProperties(prefix="greeting")
@@ -253,6 +250,8 @@ public class GreetingProperties {
 	}
 }
 ```
+
+2) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`.  Note how the `greetingProperties.isDisplayFortune()` is used to turn the display of fortunes on/off.  There are times when you want to turn features on/off on demand.  In this case, we want the fortune feature "on" with our greeting.
 
 ```java
 @EnableConfigurationProperties(GreetingProperties.class)
@@ -289,7 +288,7 @@ public class GreetingController {
 ```
 
 
-2) Edit your fork of the `app-config` repo.   Change `greeting.displayFortune` from `false` to `true` in the `greeting-config.yml` and push the changes back to GitHub.
+3) Edit your fork of the `app-config` repo.   Change `greeting.displayFortune` from `false` to `true` in the `greeting-config.yml` and push the changes back to GitHub.
 
 ```yml
 logging:
@@ -303,39 +302,21 @@ greeting:
 quoteServiceURL: http://quote-service-dev.cfapps.io/quote
 ```
 
-3) Notify `greeting-config` app to pick up the new config by POSTing to the `/refresh` endpoint.
+4) Notify `greeting-config` app to pick up the new config by POSTing to the `/refresh` endpoint.
 
 ```bash
 $ curl -X POST http://localhost:8080/refresh
 ```
 
-4) Then refresh the [http://localhost:8080](http://localhost:8080/) url and see the fortune included.
+5) Then refresh the [http://localhost:8080](http://localhost:8080/) url and see the fortune included.
 
 ### `@RefreshScope`
 
 Beans annotated with the  `@ResfreshScope` will be recreated when refreshed so they can pickup new config values.
 
-1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteController.java` & `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteService.java`.  `QuoteService.java` uses the `@RefreshScope` annotation.  In this case, we are using a third party service to get quotes.  We want to keep our environments aligned with the third party.  So we are going to override configuration values by profile (next section).
+1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteService.java`.  `QuoteService.java` uses the `@RefreshScope` annotation. Beans with the `@RefreshScope` annotation will be recreated when refreshing configuration.  The `@Value` annotation allows for injecting the value of the quoteServiceURL configuration parameter.
 
-```java
-@Controller
-public class QuoteController {
-
-	Logger logger = LoggerFactory
-			.getLogger(QuoteController.class);
-
-	@Autowired
-	private QuoteService quoteService;
-
-	@RequestMapping("/random-quote")
-	String getView(Model model) {
-
-		model.addAttribute("quote", quoteService.getQuote());
-		model.addAttribute("uri", quoteService.getQuoteServiceURI());
-		return "quote";
-	}
-}
-```
+In this case, we are using a third party service to get quotes.  We want to keep our environments aligned with the third party.  So we are going to override configuration values by profile (next section).
 
 ```java
 @Service
@@ -361,7 +342,30 @@ public class QuoteService {
 }
 ```
 
-2) In your browser, hit the [http://localhost:8080/random-quote](http://localhost:8080/random-quote) url.  
+
+2) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteController.java`.  `QuoteController` calls the `QuoteService` for quotes.
+
+```java
+@Controller
+public class QuoteController {
+
+	Logger logger = LoggerFactory
+			.getLogger(QuoteController.class);
+
+	@Autowired
+	private QuoteService quoteService;
+
+	@RequestMapping("/random-quote")
+	String getView(Model model) {
+
+		model.addAttribute("quote", quoteService.getQuote());
+		model.addAttribute("uri", quoteService.getQuoteServiceURI());
+		return "quote";
+	}
+}
+```
+
+3) In your browser, hit the [http://localhost:8080/random-quote](http://localhost:8080/random-quote) url.  
 Note where the data is being served from: `http://quote-service-dev.cfapps.io/quote`
 
 ### Override Configuration Values By Profile
