@@ -6,7 +6,7 @@
 	- [Requirements](#requirements)
 	- [What You Will Learn](#what-you-will-learn)
 	- [Exercises](#exercises)
-		- [Setup the `app-config` Repo](#setup-the-app-config-repo)
+		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
 		- [Set up `config-server`](#set-up-config-server)
 		- [Set up `service-registry`](#set-up-service-registry)
 		- [Set up `fortune-service`](#set-up-fortune-service)
@@ -25,13 +25,13 @@
 ## What You Will Learn
 
 * How to embed Eureka in Spring Boot application
-* How to register services (`fortune-service`) with Eureka
+* How to register services (`greeting-service` and `fortune-service`) with Eureka
 * How to discover services (`fortune-service`) with Eureka
 
 ## Exercises
 
 
-### Setup the `app-config` Repo
+### Set up the `app-config` Repo
 
 1) Create an `$APP_CONFIG_REPO_HOME/application.yml` in your fork of the `app-config` repo with the following contents:
 
@@ -66,7 +66,7 @@ $ mvn clean spring-boot:run
 
 ![Config Server](resources/images/restful-api.png "Config Server")
 
-Note that I picked a random application name and it picked up configuration from the `application.yml`.
+Note that a random application name was used and it picked up configuration from the `application.yml`.
 
 ### Set up `service-registry`
 
@@ -117,16 +117,15 @@ Standlalone mode still offers a high degree of resilience with:
 
 * Heartbeats between the client and server to keep registrations up to date
 * Client side caching, so that clients don't go to Eureka for every lookup
-* Running in an Elastic Runtime (Cloud Foundry) that keeps appl
-ications up
+* Running in an Elastic Runtime (Cloud Foundry) that keeps applications up
 
 With the above configuration, we have configured Eureka to run in standalone mode.
 
 ***Understanding the configuration parameters***
 
-* `eureka.instance.hostname` - the hostname for this Eureka instance
+* `eureka.instance.hostname` - the hostname for this service (Eureka instance)
 * `eureka.client.registerWithEureka` - should this application (Eureka instance) register with Eureka
-* `eureka.client.fetchRegistry` - should the this application fetch the registry (for how to discover services)
+* `eureka.client.fetchRegistry` - should  this application (Eureka instance) fetch the registry (for how to discover services)
 * `eureka.client.serviceUrl.defaultZone` - the Eureka instance to use.  Notice it is pointing to itself.
 
 
@@ -193,13 +192,11 @@ eureka: # <--- ADD NEW SECTION
 ```
 The expression above (`eureka.instance.metadataMap.instanceId`) creates a unique `instanceId` when running locally or in PWS.  By default a client is registered with an ID that is equal to its hostname (i.e. only one service per host).  The expression above allows for multiple instances in the given environment (PWS or locally).  Keep in mind this is just an ID is does not describe how reach a given service.
 
-Connectivity details are controlled via `hostname` and 'nonSecurePort'.
+Connectivity details are controlled via `hostname` and `nonSecurePort`.
 
 There is no `eureka.instance.hostname` defined.  This will default to the machine `hostname`.
 
 There is no `eureka.instance.nonSecurePort` defined.  This will default to the value of `server.port`.
-
-Clients will also register with a serviceId equal to `spring.application.hostname`.
 
 Also note that there is no `eureka.client.serviceUrl.defaultZone` defined.  It defaults to `http://localhost:8761/eureka/`.
 
@@ -219,7 +216,7 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
 
 ### Set up `greeting-service`
 
-1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/resources/bootstrap.yml` file.  The name of this app is `greeting-service`.  It also uses the `config-server`
+1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/resources/bootstrap.yml` file.  The name of this app is `greeting-service`.  It also uses the `config-server`.
 
 ```yml
  server:
@@ -257,7 +254,7 @@ The Eureka Dashboard may report a warning, because we aren't setup with multiple
  }
 ```
 
-4) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `DiscoveryClient`.  It is used to discover services registered with the `service-registry`.  See `fetchFortuneServiceUrl()`
+4) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `DiscoveryClient`.  `DiscoveryClient` is used to discover services registered with the `service-registry`.  See `fetchFortuneServiceUrl()`.
 
 ```java
 @Controller
@@ -388,7 +385,7 @@ When running an application with multiple instances on Cloud Foundry they all sh
 
 Additionally, the `Java Buildpack Auto-Reconfiguration` adds the `cloud` profile to Spring's list of active profiles.
 
-Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the hostname.  Also overridden is the port to reach the given service.
+Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the hostname when the `cloud` profile is active.  Also overridden is the port to reach the given service.
 
 ### Deploy the `fortune-service` to PWS
 
@@ -411,9 +408,9 @@ $ cf bind-service fortune-service config-server
 $ cf bind-service fortune-service service-registry
 $ cf start fortune-service
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the `fortune-service`._
+_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the_ `fortune-service`.
 
-4) Confirm `fortune-service` registered the the `service-registry`.  This will take a few moments.
+4) Confirm `fortune-service` registered with the `service-registry`.  This will take a few moments.
 ![fortune-service](resources/images/cf-fortune-service.png "fortune-service")
 
 ### Deploy the `greeting-service` app to PWS
@@ -437,7 +434,7 @@ $ cf bind-service greeting-service config-server
 $ cf bind-service greeting-service service-registry
 $ cf start greeting-service
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the `fortune-service`._
+_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the_ `greeting-service`.
 
 
 4) Confirm `greeting-service` registered with the `service-registry`.  This will take a few moments.
