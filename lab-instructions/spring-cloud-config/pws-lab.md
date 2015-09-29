@@ -138,6 +138,9 @@ spring:
   application:
     name: greeting-config
 ```
+
+`spring.application.name` defines the name of the application.  This value is used in several places within Spring Cloud: locating configuration files by name, service discovery/registration by name, etc.  In this lab, it will be used to locate config files for the `greeting-config` application.
+
 In the bootstrap.yml, `spring.cloud.config.uri` defines how greeting-config reaches the `config-server`. Since there is no `spring.cloud.config.uri` defined in this file, the default value of `http://localhost:8888` is used.  Notice that this is the same host and port of the `config-server` application.
 
 3) Open a new terminal window.  Start the `greeting-config` application:
