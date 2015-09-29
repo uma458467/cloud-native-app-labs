@@ -537,4 +537,4 @@ logging:
 $ curl -X POST http://greeting-config-hypodermal-subcortex.cfapps.io/bus/refresh
 ```
 
-9) Refresh the [greeting-config] `/` endpoint several times in your browser.  No more logs!
+9) Refresh the `greeting-config` `/` endpoint several times in your browser.  No more logs!
