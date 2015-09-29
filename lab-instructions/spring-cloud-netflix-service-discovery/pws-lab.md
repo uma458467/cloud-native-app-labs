@@ -21,6 +21,12 @@
 
 [Lab Requirements](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/requirements.md)
 
+## What You Will Learn
+
+* How to embed Eureka in Spring Boot application
+* How to register services (`fortune-service`) with Eureka
+* How to discover services (`fortune-service`) with Eureka
+
 ## Exercises
 
 
@@ -29,53 +35,39 @@
 1) Create an `$APP_CONFIG_REPO_HOME/application.yml` in your fork of the `app-config` repo with the following contents:
 
 ```yml
- logging:
-   level:
-     io:
-       pivotal: DEBUG
+logging:
+  level:
+    io:
+      pivotal: DEBUG
 ```
 Then commit and push back to Github.
 
+***A note about the application.yml***
 
+When the `config-server`'s backing repository contains an `application.yml` it is shared with all applications.  Therefore, it is a great place to put common configuration for all applications.  Certainly, this comes into play with service discovery, because all apps will need to connect with Eureka.
 
-### Setup `config-server`
+In the Spring Cloud Config Lab, we used application specific configuration files:
+* One based on the application name `greeting-config.yml`
+* One based on the application name + profile `greeting-config-qa.yml`
 
-1) Start the `config-server` in a terminal window.  You may have a terminal window still open from the Spring Cloud Config Lab.
+Application specific files override configuration in the `application.yml`.
+
+### Set up `config-server`
+
+1) Start the `config-server` in a terminal window.  You may have a terminal window still open from the previous lab.
 
 ```bash
 $ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
 $ mvn clean spring-boot:run
 ```
 
-2) Verify the `config-server` started correctly
-```bash
-curl -i http://localhost:8888/myapp/default
+2) Verify the `config-server` is up.  Open a browser and fetch [http://localhost:8888/myapp/default](http://localhost:8888/myapp/default)
 
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-X-Application-Context: bootstrap:8888
-Content-Type: application/json;charset=UTF-8
-Transfer-Encoding: chunked
-Date: Thu, 27 Aug 2015 02:33:20 GMT
+![Config Server](resources/images/restful-api.png "Config Server")
 
-{
-  "name": "myapp",
-  "profiles": [
-    "default"
-  ],
-  "label": "master",
-  "propertySources": [
-    {
-      "name": "https://github.com/d4v3r/app-config.git/application.yml",
-      "source": {
-        "logging.level.io.pivotal": "DEBUG"
-      }
-    }
-  ]
-}
-```
+Note that I picked a random application name and it picked up configuration from the `application.yml`.
 
-### Setup `service-registry`
+### Set up `service-registry`
 
 1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/service-registry/pom.xml` file.  By adding `spring-cloud-starter-eureka-server` to the classpath this application is eligible to embed an Eureka server.
 
@@ -114,6 +106,28 @@ Date: Thu, 27 Aug 2015 02:33:20 GMT
      serviceUrl:
        defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 ```
+***About Eureka***
+
+Eureka is designed for peer awareness (running multiple instances with knowledge of each other) to further increase availability.  Because of this, Eureka is not only a server but a client as well.  Therefore, Eureka Servers will be clients to each other.  `Eureka Server A` ⇄ `Eureka Server B`.
+
+For the purposes of this lab, we will simplify that configuration to run in standalone mode.  
+
+Standlalone mode still offers a high degree of resilience with:
+
+* Heartbeats between the client and server to keep registrations up to date
+* Client side caching, so that clients don't go to Eureka for every lookup
+* Running in an Elastic Runtime (Cloud Foundry) that keeps appl
+ications up
+
+With the above configuration, we have configured Eureka to run in standalone mode.
+
+***Understanding the configuration parameters***
+
+* `eureka.instance.hostname` - the hostname for this Eureka instance
+* `eureka.client.registerWithEureka` - should this application (Eureka instance) register with Eureka
+* `eureka.client.fetchRegistry` - should the this application fetch the registry (for how to discover services)
+* `eureka.client.serviceUrl.defaultZone` - the Eureka instance to use.  Notice it is pointing to itself.
+
 
 4) Open a new terminal window.  Start the `service-registry`.
 
@@ -125,7 +139,7 @@ $ mvn clean spring-boot:run
 5) Verify the `service-registry` is up.  Browse to [http://localhost:8761/](http://localhost:8761/)
 ![eureka](resources/images/eureka.png "eureka")
 
-### Setup `fortune-service`
+### Set up `fortune-service`
 
 1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/src/main/resources/bootstrap.yml` file.  The name of this app is `fortune-service`.  It also uses the `config-server`.
 
@@ -140,6 +154,8 @@ $ mvn clean spring-boot:run
        uri: ${vcap.services.config-server.credentials.uri:http://localhost:8888}
 ```
 
+`spring.application.name` is the name the application will use when registering with Eureka.
+
 2) Review the `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/pom.xml` file.  By adding `spring-cloud-starter-eureka` to the classpath this application is eligible to register and discover services with the `service-registry`.
 
 ```xml
@@ -149,7 +165,7 @@ $ mvn clean spring-boot:run
 </dependency>
 ```
 
-3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/src/main/java/io/pivotal/FortuneServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.  This registers the `fortune-service` with the `service-registry` application.
+3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/fortune-service/src/main/java/io/pivotal/FortuneServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.  This enables a discovery client that registers the `fortune-service` with the `service-registry` application.
 
 ```java
 @SpringBootApplication
@@ -174,7 +190,17 @@ eureka: # <--- ADD NEW SECTION
     metadataMap:
       instanceId: ${vcap.application.instance_id:${spring.application.name}:${server.port:8080}}
 ```
-The expression above creates a unique `instanceId` when running locally or in PWS.  By default a eureka instance is registered with an ID that is equal to its hostname (i.e. only one service per host).  The expression above allows for multiple instances in the given environment.  Also note that there is no `eureka.client.serviceUrl.defaultZone` defined.  It defaults to `http://localhost:8761/eureka/`.
+The expression above (`eureka.instance.metadataMap.instanceId`) creates a unique `instanceId` when running locally or in PWS.  By default a client is registered with an ID that is equal to its hostname (i.e. only one service per host).  The expression above allows for multiple instances in the given environment (PWS or locally).  Keep in mind this is just an ID is does not describe how reach a given service.
+
+Connectivity details are controlled via `hostname` and 'nonSecurePort'.
+
+There is no `eureka.instance.hostname` defined.  This will default to the machine `hostname`.
+
+There is no `eureka.instance.nonSecurePort` defined.  This will default to the value of `server.port`.
+
+Clients will also register with a serviceId equal to `spring.application.hostname`.
+
+Also note that there is no `eureka.client.serviceUrl.defaultZone` defined.  It defaults to `http://localhost:8761/eureka/`.
 
 5) Open a new terminal window.  Start the `fortune-service`
 
@@ -186,7 +212,11 @@ $ mvn clean spring-boot:run
 6) After the a few moments, check the `service-registry` dashboard.  Confirm the `fortune-service` is registered.
 ![fortune-service](resources/images/fortune-service.png "fortune-service")
 
-### Setup `greeting-service`
+The Eureka Dashboard may report a warning, because we aren't setup with multiple peers.  This can safely be ignored.
+![warning](resources/images/warning.png "warning")
+
+
+### Set up `greeting-service`
 
 1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/resources/bootstrap.yml` file.  The name of this app is `greeting-service`.  It also uses the `config-server`
 
@@ -211,7 +241,7 @@ $ mvn clean spring-boot:run
 ```
 
 
-3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/GreetingServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.  This registers the `greeting-service` app with the `service-registry`.
+3) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/GreetingServiceApplication.java`.  Notice the `@EnableDiscoveryClient`.   This enables a discovery client that registers the `greeting-service` app with the `service-registry`.
 
  ```java
  @SpringBootApplication
@@ -226,7 +256,7 @@ $ mvn clean spring-boot:run
  }
 ```
 
-4) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `DiscoveryClient`.  It is used to discovery services registered with the `service-registry`.
+4) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-service/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `DiscoveryClient`.  It is used to discover services registered with the `service-registry`.  See `fetchFortuneServiceUrl()`
 
 ```java
 @Controller
@@ -263,7 +293,7 @@ public class GreetingController {
 	    logger.debug("instanceID: {}", instance.getId());
 
 	    String fortuneServiceUrl = instance.getHomePageUrl();
-		logger.debug("fortune service url: {}", fortuneServiceUrl);
+		  logger.debug("fortune service url: {}", fortuneServiceUrl);
 
 	    return fortuneServiceUrl;
 	}
@@ -281,7 +311,13 @@ $ mvn clean spring-boot:run
 6) After the a few moments, check the `service-registry` [dashboard](http://localhost:8761).  Confirm the `greeting-service` app is registered.
 ![greeting](resources/images/greeting.png "greeting")
 
-7) [Browse](http://localhost:8080/) to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-service`.  See the `fortune-service` url being logged.
+7) [Browse](http://localhost:8080/) to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-service`.  See the `fortune-service` instanceId and url being logged.
+
+***What Just Happened?***
+
+The `greeting-service` application was able to discover how to reach the `fortune-service` via the `service-registry` (Eureka).
+
+8) When done stop the `config-server`, `fortune-service` and `greeting-service` applications.
 
 ### Deploy the `service-registry` to PWS
 
@@ -297,7 +333,7 @@ $ mvn clean package
 $ cf push service-registry -p target/service-registry-0.0.1-SNAPSHOT.jar -m 512M --random-route
 ```
 
-3) Create an user provided service for the `service-registry`.  Substitute your uri.  Do not use the literal below.
+3) Create an user provided service for the `service-registry`.  Substitute your uri.  Do not use the literal below.  For the uri please specify `http://` and no trailing `/` at the end. See example below.
 
 ```bash
 $ cf cups service-registry -p uri
@@ -322,7 +358,10 @@ $ uri> http://service-registry-unfluctuant-billionaire.cfapps.io
        defaultZone: ${vcap.services.service-registry.credentials.uri:http://localhost:8761}/eureka/
 ```
 
-2) Add a second yaml document to `application.yml`.  When using the `cloud` profile override the hostname and port to communicate with the given service.
+`client.serviceUrl.defaultZone` describes how a client will connect with Eureka.  If the `vcap.services.service-registry.credentials.uri` environment variable is present client applications will use that, otherwise they will try to connect locally.
+
+
+2) Add a second yaml document to `application.yml`.
 
 ```yml
 logging:
@@ -344,7 +383,11 @@ eureka:
     hostname: ${vcap.application.uris[0]}
     nonSecurePort: 80
 ```
+When running an application with multiple instances on Cloud Foundry they all share the same `hostname` and traffic is routed to the application instances via the `router`.  This is in conflict with Eureka's default behavior of using the machine `hostname` as the way to reach a given service and similarly for the port (`nonSecurePort`).
 
+Additionally, the `Java Buildpack Auto-Reconfiguration` adds the `cloud` profile to Spring's list of active profiles.
+
+Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the hostname.  Also overridden is the port to reach the given service.
 
 ### Deploy the `fortune-service` to PWS
 
@@ -367,8 +410,9 @@ $ cf bind-service fortune-service config-server
 $ cf bind-service fortune-service service-registry
 $ cf start fortune-service
 ```
+_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the `fortune-service`._
 
-4) Confirm `fortune-service` registered the the `service-registry`
+4) Confirm `fortune-service` registered the the `service-registry`.  This will take a few moments.
 ![fortune-service](resources/images/cf-fortune-service.png "fortune-service")
 
 ### Deploy the `greeting-service` app to PWS
@@ -392,31 +436,33 @@ $ cf bind-service greeting-service config-server
 $ cf bind-service greeting-service service-registry
 $ cf start greeting-service
 ```
+_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the `fortune-service`._
 
-4) Confirm `greeting-service` registered with the `service-registry`
+
+4) Confirm `greeting-service` registered with the `service-registry`.  This will take a few moments.
 ![greeting](resources/images/cf-greeting.png "greeting")
 
-5) Browse to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-service`.  See the `fortune-service` url being logged.
+5) Browse to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.
 
 ### Scale the `fortune-service`
 
-1) Scale the `fortune-service` app instances to 3
+1) Scale the `fortune-service` app instances to 3.
 
 ```
 $ cf scale fortune-service -i 3
 ```
 
-2) Wait for the new instances to register with the `service-registry`
+2) Wait for the new instances to register with the `service-registry`.  This will take a few moments.
 
-3) Tail the logs for the `greeting-service` application
+3) Tail the logs for the `greeting-service` application.
 
 ```
 $ cf logs greeting-service | grep GreetingController
 ```
 
-4) Refresh the `greeting-service` `/` endpoint
+4) Refresh the `greeting-service` `/` endpoint.
 
-5) Observe the effects in the log output.  The `discoveryClient` round robins the `fortune-service` instances.  However, PWS does not allow cross container communication, so we override the hostname and send traffic back through the PWS routers.
+5) Observe the log output.  Compare the `instanceId`'s being logged. The `discoveryClient` round robins the `fortune-service` instances.
 
 ```
 2015-09-01T09:54:58.57-0500 [App/2]      OUT 2015-09-01 14:54:58.574 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : Adding greeting
