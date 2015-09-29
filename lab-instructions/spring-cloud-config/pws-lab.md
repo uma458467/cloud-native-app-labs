@@ -427,7 +427,7 @@ $ mvn clean package
 $ cf push config-server -p target/config-server-0.0.1-SNAPSHOT.jar -m 512M --random-route
 ```
 
-2) Create a user-provided service.  This service describes how to connect to your `config-server` application.  Make sure to use your config-server uri, not the literal below.
+2) Create a user-provided service.  This service describes how to connect to your `config-server` application.  Make sure to use your config-server uri, not the literal below.  For the `uri` please specify `http://` and no trailing `/` at the end.  See example below.
 
 ```bash
 $ cf cups config-server -p uri
@@ -472,7 +472,7 @@ $ cf start greeting-config
 
 8) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on PWS?
 
-* Is the log level for `io.pivotal` package set to `DEBUG`?  Yes, this can be confirmed with `cf logs` command while refreshing the `greeting-config` `/` endpoint.
+* Is the log level for `io.pivotal` package set to `DEBUG`?  Yes, this can be confirmed with `cf logs` command while refreshing the `greeting-config` `/` endpoint (`http://<your-random-greeting-config-url/`).
 * Is `greeting-config` app displaying the fortune?  Yes, this can be confirmed by visiting the `greeting-config` `/` endpoint.
 * Is the `greeting-config` app serving quotes from `http://quote-service-qa.cfapps.io/quote`?  No, this can be confirmed by visiting the `greeing-config` `/random-quote` endpoint.  Why not?  When developing locally we used an environment variable to set the active profile, we need to do the same on PWS.
 
