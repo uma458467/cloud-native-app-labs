@@ -49,6 +49,10 @@ $ mvn clean spring-boot:run
 
 ### Set up `greeting-ribbon`
 
+***No additions to the pom.xml***
+
+In this case, we don't need to explicitly include Ribbon support in the `pom.xml`.  Ribbon support is pulled in through transitive dependencies (dependencies of the dependencies we have already defined).
+
 1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `LoadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
 
 ```java
@@ -110,6 +114,10 @@ $ mvn clean spring-boot:run
 4) [Browse](http://localhost:8080/) to the `greeting-ribbon` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon` app.  See the `uri` and `serviceId` being logged.
 
 ### Set up `greeting-ribbon-rest`
+
+***No additions to the pom.xml***
+
+In this case, we don't need to explicitly include Ribbon support in the `pom.xml`.  Ribbon support is pulled in through transitive dependencies (dependencies of the dependencies we have already defined).
 
 1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon-rest/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `RestTemplate`.  It is not the usual `RestTemplate`, it is load balanced by Ribbon.  The `@LoadBalanced` annotation is a qualifier to ensure we get the load balanced `RestTemplate` injected.  This further simplifies application code.
 
