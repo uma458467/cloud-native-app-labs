@@ -43,15 +43,12 @@ public class GreetingController {
 	
 	private String fetchFortuneServiceUrl() {
 	    ServiceInstance instance = loadBalancerClient.choose("fortune-service");
+
 	    logger.debug("uri: {}",instance.getUri().toString());
 	    logger.debug("serviceId: {}", instance.getServiceId());
 
-	    URI producerUri = URI.create(String.format("http://%s:%d", instance.getHost(), instance.getPort()));
-	    		
 
-		logger.debug("fortune service url: {}", producerUri.toString());
-
-	    return producerUri.toString();
+	    return instance.getUri().toString();
 	}	
 	
 }
