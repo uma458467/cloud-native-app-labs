@@ -4,10 +4,11 @@
 
 - [Spring Cloud Netflix: Client Side Load Balancing](#spring-cloud-netflix-client-side-load-balancing)
 	- [Requirements](#requirements)
+	- [What You Will Learn](#what-you-will-learn)
 	- [Exercises](#exercises)
 		- [Start the  `config-server`,  `service-registry`, and `fortune-service`](#start-the-config-server-service-registry-and-fortune-service)
-		- [Setup `greeting-ribbon`](#setup-greeting-ribbon)
-		- [Setup `greeting-ribbon-rest`](#setup-greeting-ribbon-rest)
+		- [Set up `greeting-ribbon`](#set-up-greeting-ribbon)
+		- [Set up `greeting-ribbon-rest`](#set-up-greeting-ribbon-rest)
 		- [Deploy the `greeting-ribbon-rest` to PWS](#deploy-the-greeting-ribbon-rest-to-pws)
 <!-- /TOC -->
 
@@ -15,12 +16,17 @@
 
 [Lab Requirements](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/requirements.md)
 
+## What You Will Learn
+
+* How to use Ribbon as a client side load balancer
+* How to use a Ribbon enabled `RestTemplate`
+
 ## Exercises
 
 
 ### Start the  `config-server`,  `service-registry`, and `fortune-service`
 
-1) Start the `config-server` in a terminal window.  You may have a terminal windows still open from previous labs.  They may be reused for this lab.
+1) Start the `config-server` in a terminal window.  You may have terminal windows still open from previous labs.  They may be reused for this lab.
 
 ```bash
 $ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
@@ -41,9 +47,9 @@ $ cd $CLOUD_NATIVE_APP_LABS_HOME/fortune-service
 $ mvn clean spring-boot:run
 ```
 
-### Setup `greeting-ribbon`
+### Set up `greeting-ribbon`
 
-1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `LoadBalancerClient`.  It is a client side load balancer.
+1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `LoadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
 
 ```java
 @Controller
@@ -77,20 +83,19 @@ public class GreetingController {
 
 	private String fetchFortuneServiceUrl() {
 	    ServiceInstance instance = loadBalancerClient.choose("fortune-service");
+
 	    logger.debug("uri: {}",instance.getUri().toString());
 	    logger.debug("serviceId: {}", instance.getServiceId());
 
-	    URI producerUri = URI.create(String.format("http://%s:%d", instance.getHost(), instance.getPort()));
 
-
-		  logger.debug("fortune service url: {}", producerUri.toString());
-
-	    return producerUri.toString();
+	    return instance.getUri().toString();
 	}
 
 }
 
 ```
+
+
 
 2) Open a new terminal window.  Start the `greeting-ribbon` app.
 
@@ -102,11 +107,11 @@ $ mvn clean spring-boot:run
 3) After the a few moments, check the `service-registry` [dashboard](http://localhost:8761).  Confirm the `greeting-ribbon` app is registered.
 
 
-4) [Browse](http://localhost:8080/) to the `greeting-ribbon` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon` app.
+4) [Browse](http://localhost:8080/) to the `greeting-ribbon` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon` app.  See the `uri` and `serviceId` being logged.
 
-### Setup `greeting-ribbon-rest`
+### Set up `greeting-ribbon-rest`
 
-1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon-rest/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `RestTemplate`.  It is not the usual `RestTemplate`, it is load balanced by Ribbon.  The `@LoadBalanced` annotation is a qualifier to ensure we get the load balanced `RestTemplate` injected.
+1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon-rest/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `RestTemplate`.  It is not the usual `RestTemplate`, it is load balanced by Ribbon.  The `@LoadBalanced` annotation is a qualifier to ensure we get the load balanced `RestTemplate` injected.  This further simplifies application code.
 
 ```java
 @Controller
@@ -166,5 +171,6 @@ $ cf bind-service greeting-ribbon-rest config-server
 $ cf bind-service greeting-ribbon-rest service-registry
 $ cf start greeting-ribbon-rest
 ```
+_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI. We can just start the_ `greeting-ribbon-rest` application.
 
-2) Refresh the `greeting-ribbon-rest` `/` endpoint.  Review the logs for `greeting-ribbon-rest` and `fortune-service`.
+2) Refresh the `greeting-ribbon-rest` `/` endpoint.
