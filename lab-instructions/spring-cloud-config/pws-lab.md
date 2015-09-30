@@ -108,7 +108,7 @@ $ mvn clean spring-boot:run
 Your config-server will be running locally once you see a "Started ConfigServerApplication..." message. You
 will not be returned to a command prompt and must leave this window open.
 
-5) Confirm the `config-server` is up and configured with a backing git repository by calling its restful API.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
+5) Confirm the `config-server` is up and configured with a backing git repository by calling one of its endpoints.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
 
 Open a browser window fetch the following url: [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
 
