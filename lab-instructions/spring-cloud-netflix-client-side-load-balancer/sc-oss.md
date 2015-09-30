@@ -9,7 +9,7 @@
 		- [Start the  `config-server`,  `service-registry`, and `fortune-service`](#start-the-config-server-service-registry-and-fortune-service)
 		- [Set up `greeting-ribbon`](#set-up-greeting-ribbon)
 		- [Set up `greeting-ribbon-rest`](#set-up-greeting-ribbon-rest)
-		- [Deploy the `greeting-ribbon-rest` to PWS](#deploy-the-greeting-ribbon-rest-to-pws)
+		- [Deploy the `greeting-ribbon-rest` to PCF](#deploy-the-greeting-ribbon-rest-to-pcf)
 <!-- /TOC -->
 
 ## Requirements
@@ -160,7 +160,7 @@ $ mvn clean spring-boot:run
 
 4) [Browse](http://localhost:8080/) to the `greeting-ribbon-rest` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon-rest` app.
 
-### Deploy the `greeting-ribbon-rest` to PWS
+### Deploy the `greeting-ribbon-rest` to PCF
 
 1) Package, push and bind services for `greeting-ribbon-rest`.
 

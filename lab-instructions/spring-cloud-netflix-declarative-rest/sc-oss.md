@@ -7,7 +7,7 @@
 	- [Exercises](#exercises)
 		- [Start the  `config-server`,  `service-registry`, and `fortune-service`](#start-the-config-server-service-registry-and-fortune-service)
 		- [Setup `greeting-feign`](#setup-greeting-feign)
-		- [Deploy the `greeting-feign` to PWS](#deploy-the-greeting-feign-to-pws)
+		- [Deploy the `greeting-feign` to PCF](#deploy-the-greeting-feign-to-pcf)
 <!-- /TOC -->
 
 ## Requirements
@@ -124,7 +124,7 @@ $ mvn clean spring-boot:run
 4) [Browse](http://localhost:8080/) to the `greeting-ribbon` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon` app.
 
 
-### Deploy the `greeting-feign` to PWS
+### Deploy the `greeting-feign` to PCF
 
 1) Package, push and bind services for `greeting-feign`.
 

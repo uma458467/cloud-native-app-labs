@@ -11,10 +11,10 @@
 		- [Set up `service-registry`](#set-up-service-registry)
 		- [Set up `fortune-service`](#set-up-fortune-service)
 		- [Set up `greeting-service`](#set-up-greeting-service)
-		- [Deploy the `service-registry` to PWS](#deploy-the-service-registry-to-pws)
-		- [Update App Config for `fortune-service` and `greeting-service` to run on PWS](#update-app-config-for-fortune-service-and-greeting-service-to-run-on-pws)
-		- [Deploy the `fortune-service` to PWS](#deploy-the-fortune-service-to-pws)
-		- [Deploy the `greeting-service` app to PWS](#deploy-the-greeting-service-app-to-pws)
+		- [Deploy the `service-registry` to PCF](#deploy-the-service-registry-to-pcf)
+		- [Update App Config for `fortune-service` and `greeting-service` to run on PCF](#update-app-config-for-fortune-service-and-greeting-service-to-run-on-pcf)
+		- [Deploy the `fortune-service` to PCF](#deploy-the-fortune-service-to-pcf)
+		- [Deploy the `greeting-service` app to PCF](#deploy-the-greeting-service-app-to-pcf)
 		- [Scale the `fortune-service`](#scale-the-fortune-service)
 <!-- /TOC -->
 
@@ -190,7 +190,7 @@ eureka: # <--- ADD NEW SECTION
     metadataMap:
       instanceId: ${vcap.application.instance_id:${spring.application.name}:${server.port:8080}}
 ```
-The expression above (`eureka.instance.metadataMap.instanceId`) creates a unique `instanceId` when running locally or in PWS.  By default a client is registered with an ID that is equal to its hostname (i.e. only one service per host).  The expression above allows for multiple instances in the given environment (PWS or locally).  Keep in mind this is just an ID is does not describe how reach a given service.
+The expression above (`eureka.instance.metadataMap.instanceId`) creates a unique `instanceId` when running locally or in PCF.  By default a client is registered with an ID that is equal to its hostname (i.e. only one service per host).  The expression above allows for multiple instances in the given environment (PCF or locally).  Keep in mind this is just an ID is does not describe how reach a given service.
 
 Connectivity details are controlled via `hostname` and `nonSecurePort`.
 
@@ -317,7 +317,7 @@ The `greeting-service` application was able to discover how to reach the `fortun
 
 8) When done stop the `config-server`, `fortune-service` and `greeting-service` applications.
 
-### Deploy the `service-registry` to PWS
+### Deploy the `service-registry` to PCF
 
 1) Package `service-registry`
 
@@ -338,7 +338,7 @@ $ cf cups service-registry -p uri
 $ uri> http://service-registry-unfluctuant-billionaire.cfapps.io
 ```
 
-### Update App Config for `fortune-service` and `greeting-service` to run on PWS
+### Update App Config for `fortune-service` and `greeting-service` to run on PCF
 
 1) In the `app-config` repo add the following to the `$APP_CONFIG_REPO_HOME/application.yml`
 
@@ -387,7 +387,7 @@ Additionally, the `Java Buildpack Auto-Reconfiguration` adds the `cloud` profile
 
 Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the hostname when the `cloud` profile is active.  Also overridden is the port to reach the given service.
 
-### Deploy the `fortune-service` to PWS
+### Deploy the `fortune-service` to PCF
 
 1) Package `fortune-service`
 
@@ -413,7 +413,7 @@ _You can safely ignore the TIP: Use 'cf restage' to ensure your env variable cha
 4) Confirm `fortune-service` registered with the `service-registry`.  This will take a few moments.
 ![fortune-service](resources/images/cf-fortune-service.png "fortune-service")
 
-### Deploy the `greeting-service` app to PWS
+### Deploy the `greeting-service` app to PCF
 
 1) Package `greeting-service`
 

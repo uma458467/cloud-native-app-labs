@@ -1,6 +1,22 @@
 # Spring Cloud Config
 
+<!-- TOC depth:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Spring Cloud Config](#spring-cloud-config)
+	- [Requirements](#requirements)
+	- [What You Will Learn](#what-you-will-learn)
+	- [Exercises](#exercises)
+		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
+		- [Set up the `cloud-native-app-labs` Repo](#set-up-the-cloud-native-app-labs-repo)
+		- [Set up `config-server`](#set-up-config-server)
+		- [Set up `greeting-config`](#set-up-greeting-config)
+		- [Changing Logging Levels](#changing-logging-levels)
+		- [Turning on a Feature with `@ConfigurationProperties`](#turning-on-a-feature-with-configurationproperties)
+		- [Reinitializing Beans with `@RefreshScope`](#reinitializing-beans-with-refreshscope)
+		- [Override Configuration Values By Profile](#override-configuration-values-by-profile)
+		- [Deploy the `config-server` and `greeting-config` apps to PCF](#deploy-the-config-server-and-greeting-config-apps-to-pcf)
+		- [Refreshing Application Configuration at Scale with Cloud Bus](#refreshing-application-configuration-at-scale-with-cloud-bus)
+<!-- /TOC -->
 
 ## Requirements
 
@@ -407,9 +423,9 @@ when done stop both the `config-server` and `greeting-config` applications.
 
 Configuration from `greeting-config.yml` was overridden by a configuration file that was more specific (`greeting-config-qa.yml`).
 
-### Deploy the `config-server` and `greeting-config` apps to PWS
+### Deploy the `config-server` and `greeting-config` apps to PCF
 
-1) Package and deploy the `config-server` to PWS.  The `--random-route` flag will generate a random uri for the `config-server`.  Make note of it.  You will use it in the next step. Make sure you are targeting your PWS account and execute the following from
+1) Package and deploy the `config-server` to PCF.  The `--random-route` flag will generate a random uri for the `config-server`.  Make note of it.  You will use it in the next step. Make sure you are targeting your PCF account and execute the following from
 the `config-server` directory:
 
 ```bash
@@ -442,7 +458,7 @@ When defining the `spring.cloud.config.uri`, our app will first look for an envi
 $ mvn clean package
 ```
 
-5) Deploy the `greeting-config` application to PWS, without starting the application:
+5) Deploy the `greeting-config` application to PCF, without starting the application:
 
 ```bash
 $ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
@@ -460,11 +476,11 @@ $ cf bind-service greeting-config config-server
 $ cf start greeting-config
 ```
 
-8) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on PWS?
+8) Browse to your `greeting-config` application.  Are your configuration settings that were set when developing locally mirrored on PCF?
 
 * Is the log level for `io.pivotal` package set to `DEBUG`?  Yes, this can be confirmed with `cf logs` command while refreshing the `greeting-config` `/` endpoint (`http://<your-random-greeting-config-url/`).
 * Is `greeting-config` app displaying the fortune?  Yes, this can be confirmed by visiting the `greeting-config` `/` endpoint.
-* Is the `greeting-config` app serving quotes from `http://quote-service-qa.cfapps.io/quote`?  No, this can be confirmed by visiting the `greeting-config` `/random-quote` endpoint.  Why not?  When developing locally we used an environment variable to set the active profile, we need to do the same on PWS.
+* Is the `greeting-config` app serving quotes from `http://quote-service-qa.cfapps.io/quote`?  No, this can be confirmed by visiting the `greeting-config` `/random-quote` endpoint.  Why not?  When developing locally we used an environment variable to set the active profile, we need to do the same on PCF.
 
 ```bash
 $ cf set-env greeting-config SPRING_PROFILES_ACTIVE qa
@@ -487,7 +503,7 @@ Cloud Bus addresses the issues listed above by providing a single endpoint to re
 
 1) Create a RabbitMQ service instance, bind it to `greeting-config`
 ```bash
-$ cf cs cloudamqp lemur cloud-bus
+$ cf cs p-rabbitmq standard cloud-bus
 $ cf bs greeting-config cloud-bus
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  Our app doesn't need to be restaged.  We will push it again with new functionality in a moment.
