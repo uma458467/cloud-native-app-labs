@@ -47,7 +47,7 @@ To start, we need a repository to hold our configuration.
 3) Open a new terminal window and clone the fork you just created (you may want to create a common location for your GitHub repos, such as ~/repos):
 
 ```bash
-$ cd [location of your github repos, for example ~/repos]
+$ cd [location of your github repos, e.g. ~/repos]
 $ git clone <Your fork of the app-config repo - HTTPS clone URL>
 $ cd app-config
 ```
@@ -62,7 +62,7 @@ Notice that this repository is basically empty. This repository will be the sour
 3) Open a new terminal window.  Clone the following repo.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.
 
 ```bash
-$ cd [location of your github repos, for example ~/repos]
+$ cd [location of your github repos, e.g. ~/repos]
 $ git clone <Your fork of the cloud-native-app-labs repo - HTTPS clone URL>
 $ cd cloud-native-app-labs
 ```
