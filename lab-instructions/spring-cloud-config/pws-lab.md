@@ -216,7 +216,7 @@ This file has several configuration parameters that will be used throughout this
 
 The propertySources value has changed!  The `config-server` has picked up the changes to the git repo.
 
-5) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`.  For the `greeting-config` application to pick up the configuration changes, it must include the `actuator` dependency.  The `actuator` adds several additional endpoints to the application for operational visibility and tasks that need to be carried out.  In this case, we have added the dependency so that we can add the `/refresh` endpoint, which allows us to refresh the application config on demand.
+5) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`.  For the `greeting-config` application to pick up the configuration changes, it must include the `actuator` dependency.  The `actuator` adds several additional endpoints to the application for operational visibility and tasks that need to be carried out.  In this case, we have added the actuator so that we can use the `/refresh` endpoint, which allows us to refresh the application config on demand.
 
 ```xml
 <dependency>
