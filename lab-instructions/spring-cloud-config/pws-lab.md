@@ -9,7 +9,7 @@
 ## What You Will Learn
 
 * How to set up a git repository to hold configuration data
-* How to set up a config server (`config-server`) with a Git backend
+* How to set up a config server (`config-server`) with a git backend
 * How to set up a client (`greeting-config`) to pull configuration from the `config-server`
 * How to change log levels for a running application (`greeting-config`)
 * How to use `@ConfigurationProperties` to capture configuration changes (`greeting-config`)
@@ -28,9 +28,10 @@ To start, we need a repository to hold our configuration.
 
 2) GitHub displays your new fork. Copy the HTTPS clone URL from your fork.
 
-3) Open a new terminal window and clone the fork you just created:
+3) Open a new terminal window and clone the fork you just created (you may want to create a common location for your GitHub repos, such as ~/repos):
 
 ```bash
+$ cd [location of your github repos, for example ~/repos]
 $ git clone <Your fork of the app-config repo - HTTPS clone URL>
 $ cd app-config
 ```
@@ -45,6 +46,7 @@ Notice that this repository is basically empty. This repository will be the sour
 3) Open a new terminal window.  Clone the following repo.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.
 
 ```bash
+$ cd [location of your github repos, for example ~/repos]
 $ git clone <Your fork of the cloud-native-app-labs repo - HTTPS clone URL>
 $ cd cloud-native-app-labs
 ```
@@ -81,7 +83,7 @@ public class ConfigServerApplication {
 ```
 Note the `@EnableConfigServer` annotation.  That embeds the config-server.
 
-3) Set the Github repository for the `config-server`. This will be the source of the configuration data. Edit the `$CLOUD_NATIVE_APP_LABS_HOME/config-server/src/main/resources/application.yml` file.
+3) Set the GitHub repository for the `config-server`. This will be the source of the configuration data. Edit the `$CLOUD_NATIVE_APP_LABS_HOME/config-server/src/main/resources/application.yml` file.
 
 ```yml
  server:
@@ -116,7 +118,7 @@ Open a browser window fetch the following url: [http://localhost:8888/greeting-c
 
 The `config-server` is a RESTful application. There are several REST based endpoints exposed to fetch configuration.
 
-In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our client application `greeting-config` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  Because there is no configuration in the git repository none is returned.
+In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our client application `greeting-config` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  Because there is no configuration in the git repository, none is returned (the propertySources value is empty).
 
 
 ### Set up `greeting-config`
@@ -164,13 +166,13 @@ At this point, you connected the `greeting-config` application with the `config-
 Located property source: CompositePropertySource [name='configService', propertySources=[]]
 ```
 
-There is still no configuration in the git repo, but at this point we have everything wired up (`greeting-config` → `config-server` → `app-config` repo) so we can add configuration parameters/values and see the effects in out client application `greeting-config`.
+There is still no configuration in the git repo, but at this point we have everything wired (`greeting-config` → `config-server` → `app-config` repo) so we can add configuration parameters/values and see the effects in out client application `greeting-config`.
 
 Configuration parameters/values will be added as we move through the lab.
 
 ### Changing Logging Levels
 
-Logging levels can be reset with configuration changes.
+As your first use of the config-server, you will change the logging level of the greeting-config application.
 
 1) View the getGreeting() method of  `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`
  ```java
@@ -189,7 +191,8 @@ String getGreeting(Model model){
   return "greeting";
 }
 ```
-We want to see these debug messages.  By default log levels of `ERROR`, `WARN` and `INFO` will be logged.  All log output will be directed to `System.out` & `System.error` by default so logs will be output to the terminal window(s).
+We want to see these debug messages.  By default only log levels of `ERROR`, `WARN` and `INFO` will be logged. You will change the log level to `DEBUG` using
+configuration. All log output will be directed to `System.out` & `System.error` by default, so logs will be output to the terminal window(s).
 
 2) Edit your fork of the `app-config` repo.  Create a file called `greeting-config.yml`.  Add the content below to the file and push the changes back to GitHub.
 ```yml
@@ -203,18 +206,17 @@ greeting:
 
 quoteServiceURL: http://quote-service-dev.cfapps.io/quote
 ```
-This file has several configuration parameters that will be used throughout this lab.  For this exercise, we have set the log level for classes in `io.pivotal` package to `DEBUG`.
+This file has several configuration parameters that will be used throughout this lab.  For this exercise, we have set the log level for classes in the `io.pivotal` package to `DEBUG`.
 
-3) While watching the `greeting-config` terminal, refresh the [http://localhost:8080](http://localhost:8080/) url.  No changes in out application logs yet.
+3) While watching the `greeting-config` terminal, refresh the [http://localhost:8080](http://localhost:8080/) url.  Notice there are no DEBUG logs yet.
 
-
-4) Does the `config-server` see the change in your git repo?  Let's check what the `config-server` is serving up.  Browse to [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
+4) Does the `config-server` see the change in your git repo?  Let's check what the `config-server` is serving.  Browse to [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
 
 ![updated-config](resources/images/updated-config.png "updated-config")
 
-The value has changed!  The `config-server` has picked up the changes to the git repo.
+The propertySources value has changed!  The `config-server` has picked up the changes to the git repo.
 
-5) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`.  For the `greeting-config` application to pick up the configuration changes, it must be include the `actuator` dependency.  The `actuator` adds several additional endpoints to the application for operational visibility and tasks that need to be carried out.  In this case, we add the dependency to add the `/refresh` endpoint, which allows us to refresh the application config on demand.
+5) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/pom.xml`.  For the `greeting-config` application to pick up the configuration changes, it must include the `actuator` dependency.  The `actuator` adds several additional endpoints to the application for operational visibility and tasks that need to be carried out.  In this case, we have added the dependency so that we can add the `/refresh` endpoint, which allows us to refresh the application config on demand.
 
 ```xml
 <dependency>
@@ -231,6 +233,7 @@ $ curl -X POST http://localhost:8080/refresh
 
 7) Refresh the `greeting-config` [http://localhost:8080](http://localhost:8080/) url while viewing the `greeting-config` terminal.  You should see the debug line "Adding greeting"
 
+Congratulations! You have used the config-server to change the logging level of the greeting-config application.
 
 ### Turning on a Feature with `@ConfigurationProperties`
 
