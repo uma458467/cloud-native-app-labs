@@ -11,11 +11,10 @@
 		- [Set up the `greeting-hystrix` metric stream](#set-up-the-greeting-hystrix-metric-stream)
 		- [Set up `hystrix-dashboard`](#set-up-hystrix-dashboard)
 		- [Set up `turbine`](#set-up-turbine)
-		- [Deploying to PWS](#deploying-to-pws)
-		- [Create a RabbitMQ Service Instance on PWS](#create-a-rabbitmq-service-instance-on-pws)
-		- [Deploy `greeting-hystrix` to PWS](#deploy-greeting-hystrix-to-pws)
-		- [Deploy `turbine-amqp` to PWS](#deploy-turbine-amqp-to-pws)
-		- [Deploy `hystrix-dashboard` to PWS](#deploy-hystrix-dashboard-to-pws)
+		- [Deploying to PCF](#deploying-to-pcf)
+		- [Deploy `greeting-hystrix` to PCF](#deploy-greeting-hystrix-to-pcf)
+		- [Deploy `turbine-amqp` to PCF](#deploy-turbine-amqp-to-pcf)
+		- [Deploy `hystrix-dashboard` to PCF](#deploy-hystrix-dashboard-to-pcf)
 <!-- /TOC -->
 
 ## Requirements
@@ -248,17 +247,12 @@ $ mvn clean spring-boot:run
 
 8) Experiment! Refresh the `greeting-hystrix` `/` endpoint several times.  Take down the `fortune-service` app.  What does the dashboard do?
 
-### Deploying to PWS
+### Deploying to PCF
 
-In PWS the classic Turbine model of pulling metrics from all the distributed Hystrix commands doesn’t work.  This is because every application has the same `hostname` (every app instance has the same url).  The problem is solved with Turbine AMQP.  Metrics are published through a message broker.  We'll use RabbitMQ.
+In PCF the classic Turbine model of pulling metrics from all the distributed Hystrix commands doesn’t work.  This is because every application has the same `hostname` (every app instance has the same url).  The problem is solved with Turbine AMQP.  Metrics are published through a message broker.  We'll use RabbitMQ.
 
-### Create a RabbitMQ Service Instance on PWS
 
-```bash
-$ cf create-service cloudamqp lemur turbine-broker
-```
-
-### Deploy `greeting-hystrix` to PWS
+### Deploy `greeting-hystrix` to PCF
 
 1) Add the following dependency to the $CLOUD_NATIVE_APP_LABS_HOME/greeting-hystrix/pom.xml file. _You must edit the file._
 
@@ -269,7 +263,14 @@ $ cf create-service cloudamqp lemur turbine-broker
 </dependency>
 ```
 
-2) Package, push and bind services for `greeting-hystrix`.
+2) Create a RabbitMQ Service Instance on PCF
+
+```bash
+$ cf create-service p-rabbitmq standard turbine-broker
+```
+
+
+3) Package, push and bind services for `greeting-hystrix`.
 ```bash
 $ mvn clean package
 $ cf push greeting-hystrix -p target/greeting-hystrix-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
@@ -280,7 +281,7 @@ $ cf start greeting-hystrix
 ```
 _You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI. We can just start the_ `greeting-hystrix` application.
 
-### Deploy `turbine-amqp` to PWS
+### Deploy `turbine-amqp` to PCF
 
 1) Review the `$CLOUD_NATIVE_APP_LABS_HOME/turbine-amqp/pom.xml` file.  By adding `spring-cloud-starter-turbine-amqp` to the classpath this application is eligible to use Turbine AMQP.
 
@@ -327,7 +328,7 @@ $ cf start turbine-amqp
 ```
 _You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI. We can just start the_ `turbine-amqp` application.
 
-### Deploy `hystrix-dashboard` to PWS
+### Deploy `hystrix-dashboard` to PCF
 
 1) Package, and push `hystrix-dashboard`
 ```bash
