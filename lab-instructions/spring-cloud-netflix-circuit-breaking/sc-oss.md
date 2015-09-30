@@ -279,7 +279,7 @@ $ cf bind-service greeting-hystrix service-registry
 $ cf bind-service greeting-hystrix turbine-broker
 $ cf start greeting-hystrix
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI. We can just start the_ `greeting-hystrix` application.
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-hystrix` application.
 
 ### Deploy `turbine-amqp` to PCF
 
@@ -326,7 +326,7 @@ $ cf push turbine-amqp -p target/turbine-amqp-0.0.1-SNAPSHOT.jar --random-route 
 $ cf bind-service turbine-amqp turbine-broker
 $ cf start turbine-amqp
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI. We can just start the_ `turbine-amqp` application.
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI._ We can just start the `turbine-amqp` application.
 
 ### Deploy `hystrix-dashboard` to PCF
 

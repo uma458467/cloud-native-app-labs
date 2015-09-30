@@ -171,6 +171,6 @@ $ cf bind-service greeting-ribbon-rest config-server
 $ cf bind-service greeting-ribbon-rest service-registry
 $ cf start greeting-ribbon-rest
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI. We can just start the_ `greeting-ribbon-rest` application.
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-ribbon-rest` application.
 
 2) Refresh the `greeting-ribbon-rest` `/` endpoint.

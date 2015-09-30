@@ -408,7 +408,7 @@ $ cf bind-service fortune-service config-server
 $ cf bind-service fortune-service service-registry
 $ cf start fortune-service
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the_ `fortune-service`.
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `fortune-service`.
 
 4) Confirm `fortune-service` registered with the `service-registry`.  This will take a few moments.
 ![fortune-service](resources/images/cf-fortune-service.png "fortune-service")
@@ -434,7 +434,7 @@ $ cf bind-service greeting-service config-server
 $ cf bind-service greeting-service service-registry
 $ cf start greeting-service
 ```
-_You can safely ignore the TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI.  We can just start the_ `greeting-service`.
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `greeting-service`.
 
 
 4) Confirm `greeting-service` registered with the `service-registry`.  This will take a few moments.
