@@ -139,7 +139,7 @@ Open a browser window fetch the following url: [http://localhost:8888/hello-worl
 
 The `config-server` exposes several [endpoints](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#_quick_start) to fetch configuration.
 
-In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our example client application `hello-world` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  In the returned document, we see the configuration file `hello-world.yml` listed as `propertySource` with associated key/value pair.  This is just an example, as you move through the lab you will configuration for `greetign-config` our client application.
+In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our example client application `hello-world` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  In the returned document, we see the configuration file `hello-world.yml` listed as a `propertySource` with the associated key/value pair.  This is just an example, as you move through the lab you will configuration for `greeting-config` our client application.
 
 
 ### Set up `greeting-config`
