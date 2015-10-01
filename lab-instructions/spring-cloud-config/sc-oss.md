@@ -124,17 +124,23 @@ $ mvn clean spring-boot:run
 Your config-server will be running locally once you see a "Started ConfigServerApplication..." message. You
 will not be returned to a command prompt and must leave this window open.
 
-5) Confirm the `config-server` is up and configured with a backing git repository by calling one of its endpoints.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
+5) Let's add some configuration.  Edit your fork of the `app-config` repo.  Create a file called `hello-world.yml`.  Add the content below to the file and push the changes back to GitHub.  Be sure to substitute your name for `<Your name>`.
+```yml
+name: <Your Name>
+```
 
-Open a browser window fetch the following url: [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
 
-![Config Server - Restful API](resources/images/restful-api.png "Config Server - Restful API")
+6) Confirm the `config-server` is up and configured with a backing git repository by calling one of its endpoints.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
+
+Open a browser window fetch the following url: [http://localhost:8888/hello-world/default](http://localhost:8888/hello-world/default)
+
+![Config Server - API](resources/images/api.png "Config Server - API")
 
 ***What Just Happened?***
 
 The `config-server` is exposes several endpoints to fetch configuration.
 
-In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our client application `greeting-config` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  Because there is no configuration in the git repository, none is returned (the propertySources value is empty).
+In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our client application `hello-world` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  Because there is no configuration in the git repository, none is returned (the propertySources value is empty).
 
 
 ### Set up `greeting-config`
@@ -156,6 +162,7 @@ spring:
   application:
     name: greeting-config
 ```
+
 
 `spring.application.name` defines the name of the application.  This value is used in several places within Spring Cloud: locating configuration files by name, service discovery/registration by name, etc.  In this lab, it will be used to locate config files for the `greeting-config` application.
 
