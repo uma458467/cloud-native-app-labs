@@ -129,7 +129,6 @@ will not be returned to a command prompt and must leave this window open.
 name: <Your Name>
 ```
 
-
 6) Confirm the `config-server` is up and configured with a backing git repository by calling one of its endpoints.  Because the returned payload is JSON, we recommend using something that will pretty-print the document.  A good tool for this is the Chrome [JSON Formatter](https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en) plug-in.
 
 Open a browser window fetch the following url: [http://localhost:8888/hello-world/default](http://localhost:8888/hello-world/default)
@@ -138,7 +137,7 @@ Open a browser window fetch the following url: [http://localhost:8888/hello-worl
 
 ***What Just Happened?***
 
-The `config-server` is exposes several endpoints to fetch configuration.
+The `config-server` is exposes several [endpoints](http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#_quick_start) to fetch configuration.
 
 In this case, we are manually calling one of those endpoints (`/{application}/{profile}[/{label}]`) to fetch configuration.  In this case, we substituted our client application `hello-world` as the `{application}` and the `default` profile as the `{profile}`.  We didn't specify the label to use so `master` is assumed.  Because there is no configuration in the git repository, none is returned (the propertySources value is empty).
 
