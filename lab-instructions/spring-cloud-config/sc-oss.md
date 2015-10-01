@@ -253,7 +253,7 @@ Congratulations! You have used the config-server to change the logging level of 
 
 ### Turning on a Feature with `@ConfigurationProperties`
 
-Use of `@ConfigurationProperties` is common way to externalize and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
+Use of `@ConfigurationProperties` is a common way to externalize and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
 
 1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingProperties.java`.  Use of the `@ConfigurationProperties` annotation allows for reading of configuration values.  Configuration keys are a combination of the `prefix` and the field names.  In this case, there is one field (`displayFortune`).  Therefore `greeting.displayFortune` is used to turn the display of fortunes on/off.  Remaining code is typical getter/setters for the fields.
 
@@ -304,11 +304,9 @@ public class GreetingController {
 		return "greeting";
 	}
 
-
 }
 
 ```
-
 
 3) Edit your fork of the `app-config` repo.   Change `greeting.displayFortune` from `false` to `true` in the `greeting-config.yml` and push the changes back to GitHub.
 
@@ -332,9 +330,13 @@ $ curl -X POST http://localhost:8080/refresh
 
 5) Then refresh the [http://localhost:8080](http://localhost:8080/) url and see the fortune included.
 
+Congratulations! You have turned on a feature using the config-server.
+
 ### Reinitializing Beans with `@RefreshScope`
 
-Beans annotated with the  `@ResfreshScope` will be recreated when refreshed so they can pickup new config values.
+Now you will use the config-server to obtain a service uri rather than hardcoding it your application code.
+
+Beans annotated with the `@ResfreshScope` will be recreated when refreshed so they can pick up new config values.
 
 1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteService.java`.  `QuoteService.java` uses the `@RefreshScope` annotation. Beans with the `@RefreshScope` annotation will be recreated when refreshing configuration.  The `@Value` annotation allows for injecting the value of the quoteServiceURL configuration parameter.
 
@@ -364,7 +366,6 @@ public class QuoteService {
 }
 ```
 
-
 2) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/quote/QuoteController.java`.  `QuoteController` calls the `QuoteService` for quotes.
 
 ```java
@@ -392,12 +393,17 @@ Note where the data is being served from: `http://quote-service-dev.cfapps.io/qu
 
 ### Override Configuration Values By Profile
 
-1) Stop the `greeting-config` application
+1) Stop the `greeting-config` application using Command-C or CTRL-C in the terminal window.
 
 2) Set the active profile to qa for the `greeting-config` application.  In the example below, we use an environment variable to set the active profile.
 
 ```bash
+[mac]
 $ SPRING_PROFILES_ACTIVE=qa mvn clean spring-boot:run
+
+[windows]
+$ set SPRING_PROFILES_ACTIVE=qa
+$ mvn clean spring-boot:run
 ```
 2) Make sure the profile is set by browsing to the [http://localhost:8080/env](http://localhost:8080/env) endpoint (provided by `actuator`).  Under profiles `qa` should be listed.
 
@@ -416,8 +422,9 @@ Make sure to commit and push to GitHub.
 $ curl -X POST http://localhost:8080/refresh
 ```
 
-5) Refresh the [http://localhost:8080/random-quote](http://localhost:8080/random-quote) url.  Quotes are now being served from QA.  
-when done stop both the `config-server` and `greeting-config` applications.
+5) Refresh the [http://localhost:8080/random-quote](http://localhost:8080/random-quote) url.  Quotes are now being served from QA.
+
+6) Stop both the `config-server` and `greeting-config` applications.
 
 ***What Just Happened?***
 
@@ -492,9 +499,9 @@ Then confirm quotes are being served from ``http://quote-service-qa.cfapps.io/qu
 
 ### Refreshing Application Configuration at Scale with Cloud Bus
 
-Until now you have been notifying your application to pickup new configuration by POSTing to the `/refresh` endpoint.
+Until now you have been notifying your application to pick up new configuration by POSTing to the `/refresh` endpoint.
 
-When running several instances of your application this poses several problems:
+When running several instances of your application, this poses several problems:
 
 * Refreshing each individual instance is time consuming and too much overhead
 * When running on Cloud Foundry you don't have control over which instances you hit when sending the POST request due to load balancing provided by the `router`
