@@ -103,7 +103,7 @@ Use the `organize imports` command:
 
 _Not sure how to resolve the problem STS is reporting?_
 
-Try the quick-fix (magic shortcut):
+Try the `quick-fix` (magic shortcut) command:
 * PC: Ctrl + 1
 * Mac: Cmd + 1
 
