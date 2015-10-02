@@ -82,7 +82,6 @@ $ GREETING=Ohai java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
 
 Instead of returning the `greeting` value from the `application.yml`, the value from the environment variable was used.  The environment variable overrides the value from the `application.yml` file.
 
-Configuration has been
 3) Stop the `hello-spring-boot` application.
 
 ### Using Spring Profiles for Config
