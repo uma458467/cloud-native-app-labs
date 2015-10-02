@@ -25,7 +25,7 @@
 
 ![Spring Initializr](resources/images/spring-initializr.png "Spring Initializr")
 
-2) Fill out the *Project metadata* fields as follows:
+2) Fill out the **Project metadata** fields as follows:
 
 **Group**
 
@@ -67,7 +67,7 @@
 
 `1.2.6`
 
-3) In the Project dependencies section, check the following:
+3) In the **Project dependencies** section, check the following:
 
 * `Web`
 
@@ -75,21 +75,21 @@
 
 4) Import the project’s pom.xml into your editor/IDE of choice.
 
-_STS Import Help_:
+**STS Import Help**:
 
 Select File > Import... Then select Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your `$WORK-DIRECTORY/hello-spring-boot` (e.g. ~/repos/hello-spring-boot).
 
 5) Add a `@RestController` annotation to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RestController`.
 
-_STS Shortcut Help_:
+**STS Shortcut Help**:
 
-Need help adding an import?
+_Need help adding an import?_
 
 Use the `organize imports` command:
 * PC: Ctrl + Shift + O
 * Mac: Cmd + Shift + O
 
-Not sure how to resolve the problem STS is reporting?
+_Not sure how to resolve the problem STS is reporting?_
 
 Try the quick-fix (magic shortcut):
 * PC: Ctrl + 1
