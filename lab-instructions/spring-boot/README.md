@@ -81,6 +81,18 @@ Select File > Import... Then select Maven > Existing Maven Projects. On the Impo
 
 5) Add a `@RestController` annotation to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RestController`.
 
+
+```java
+@SpringBootApplication
+@RestController
+public class HelloSpringBootApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(HelloSpringBootApplication.class, args);
+    }
+}
+```
+
 **STS Shortcut Help**:
 
 _Need help adding an import?_
@@ -97,17 +109,6 @@ Try the quick-fix (magic shortcut):
 
 Other helpful [shortcuts](https://blog.codecentric.de/en/2012/08/my-top-10-shortcuts-for-eclipse-on-mac-os-x-and-windows-and-how-you-survive-the-change-from-windows-to-mac/).
 
-
-```java
-@SpringBootApplication
-@RestController
-public class HelloSpringBootApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(HelloSpringBootApplication.class, args);
-    }
-}
-```
 6) Add the following request handler to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RequestMapping;`
 
 ```java
