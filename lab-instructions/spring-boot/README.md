@@ -109,7 +109,7 @@ Try the `quick-fix` (magic shortcut) command:
 
 Other helpful [shortcuts](https://blog.codecentric.de/en/2012/08/my-top-10-shortcuts-for-eclipse-on-mac-os-x-and-windows-and-how-you-survive-the-change-from-windows-to-mac/).
 
-6) Add the following request handler to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RequestMapping;`
+6) Add the following request handler to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RequestMapping`.
 
 ```java
 @RequestMapping("/")
