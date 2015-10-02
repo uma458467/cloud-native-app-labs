@@ -155,6 +155,6 @@ mvn clean spring-boot:run
 
 10) Browse to: [http://localhost:8080/](http://localhost:8080/)
 
-![Hello Workd](resources/images/hello-world.png "Hello World")
+![Hello World](resources/images/hello-world.png "Hello World")
 
 **Congratulations!**  You’ve just completed your first Spring Boot application.
