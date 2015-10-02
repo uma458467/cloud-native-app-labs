@@ -99,7 +99,7 @@ spring:
 greeting: Hola
 ```
 
-Yaml supports having multiple documents in one file.  In this case, we are using the `spring.profiles` key to indicate when this document applies.  When running with the spanish profile, use "Hola" as the greeting.
+Yaml supports having multiple documents in one file.  The first document is the default configuration.  In the second document, we  use the `spring.profiles` key to indicate when it applies.  When running with the spanish profile, use "Hola" as the greeting.
 
 
 2) Run the `hello-spring-boot` application.  This time setting the `SPRING_PROFILES_ACTIVE` environment variable:
