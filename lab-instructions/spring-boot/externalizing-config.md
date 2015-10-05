@@ -12,7 +12,7 @@
 
 ### Refactoring to Externalize the Config
 
-1) In the `hello-spring-boot` project rename `src/main/resources/application.properties` to `src/main/resources/`application.yml`. Into that file, paste the following:
+1) In the `hello-spring-boot` project rename `src/main/resources/application.properties` to `src/main/resources/application.yml`. Into that file, paste the following:
 
 ```yml
 greeting: Hello
