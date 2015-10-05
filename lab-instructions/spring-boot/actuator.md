@@ -48,7 +48,7 @@ Dumps all of the beans in the Spring context.
 ([http://localhost:8080/autoconfig])
 Dumps all of the auto-configuration performed as part of application bootstrapping.
 
-http://localhost:8080/configprops
+(http://localhost:8080/configprops)
 Displays a collated list of all @ConfigurationProperties.
 
 http://localhost:8080/env
