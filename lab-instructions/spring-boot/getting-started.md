@@ -71,13 +71,13 @@
 
 * `Web`
 
-3) Click the Generate Project button. Your browser will download a zip file. Unpack that zip file into the repos directory.  Recommendation: `~/repos` ($USER-HOME/repo).
+3) Click the Generate Project button. Your browser will download a zip file. Unpack that zip file into the repos directory ($REPOS_HOME).
 
 4) Import the project’s pom.xml into your editor/IDE of choice.
 
 **STS Import Help**:
 
-Select File > Import... Then select Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your `$WORK-DIRECTORY/hello-spring-boot` (e.g. ~/repos/hello-spring-boot).
+Select File > Import... Then select Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your `$REPOS_HOME/hello-spring-boot` (e.g. ~/repos/hello-spring-boot).
 
 5) Add a `@RestController` annotation to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RestController`.
 
@@ -138,7 +138,7 @@ public class HelloSpringBootApplication {
 7) Open a terminal window and change to `hello-spring-boot` directory:
 
 ```bash
-$ cd $WORK-DIRECTORY/hello-spring-boot
+$ cd $REPOS_HOME/hello-spring-boot
 ```
 
 8) Run the application
