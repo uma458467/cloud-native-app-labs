@@ -14,6 +14,7 @@ Local system [requirements](https://github.com/pivotal-enablement/cloud-native-a
 0. [Getting Started](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/spring-boot/getting-started.md)
 0. [Externalizing Config](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/spring-boot/externalizing-config.md)
 0. [Actuator](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/spring-boot/actuator.md)
+0. [Actuator](lab-instructions/spring-boot/actuator.md)
 
 ### Spring Cloud
 1. [Spring Cloud Config](https://github.com/pivotal-enablement/cloud-native-app-labs/blob/master/lab-instructions/spring-cloud-config/sc-oss.md)
