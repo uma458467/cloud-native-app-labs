@@ -71,7 +71,12 @@ $ mvn clean spring-boot:run
 1) Run the application again, this time setting the `GREETING` environment variable:
 
 ```bash
-$ GREETING=Ohai java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+[mac, linux]
+$ GREETING=Ohai mvn clean spring-boot:run
+
+[windows]
+$ set GREETING=Ohai
+$ mvn clean spring-boot:run
 ```
 
 2) Visit the application in the browser (http://localhost:8080), and verify that the output has changed to the following:
@@ -105,7 +110,12 @@ Yaml supports having multiple documents in one file.  The first document is the 
 2) Run the `hello-spring-boot` application.  This time setting the `SPRING_PROFILES_ACTIVE` environment variable:
 
 ```bash
+[mac, linux]
 $ SPRING_PROFILES_ACTIVE=spanish mvn clean spring-boot:run
+
+[windows]
+$ set SPRING_PROFILES_ACTIVE=spanish
+$ mvn clean spring-boot:run
 ```
 
 3) Visit the application in the browser (http://localhost:8080), and verify that the output has changed to the following:
@@ -123,7 +133,13 @@ The value for the `greeting` key was pulled from the the spanish profile yaml do
 1) Run the `hello-spring-boot` application, this time setting both the `SPRING_PROFILES_ACTIVE` and `GREETING` environment variables:
 
 ```
+[mac, linux]
 $ SPRING_PROFILES_ACTIVE=spanish GREETING=Ohai mvn clean spring-boot:run
+
+[windows]
+$ set SPRING_PROFILES_ACTIVE=spanish
+$ set GREETING=Ohai
+$ mvn clean spring-boot:run
 ```
 
 Visit the application in the browser (http://localhost:8080), and verify that the output has changed to the following:
