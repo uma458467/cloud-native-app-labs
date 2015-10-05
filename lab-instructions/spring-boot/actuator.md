@@ -43,24 +43,31 @@ $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
 Try out the following endpoints. The output is omitted here because it can be quite large:
 
 [http://localhost:8080/beans](http://localhost:8080/beans)
+
 Dumps all of the beans in the Spring context.
 
-([http://localhost:8080/autoconfig])
+[http://localhost:8080/autoconfig](http://localhost:8080/autoconfig)
+
 Dumps all of the auto-configuration performed as part of application bootstrapping.
 
-(http://localhost:8080/configprops)
-Displays a collated list of all @ConfigurationProperties.
+[http://localhost:8080/configprops](http://localhost:8080/configprops)
 
-http://localhost:8080/env
+Displays a collated list of all ``@ConfigurationProperties`.
+
+[http://localhost:8080/env](http://localhost:8080/env)
+
 Dumps the application’s shell environment as well as all Java system properties.
 
-http://localhost:8080/mappings
+[http://localhost:8080/mappings](http://localhost:8080/mappings)
+
 Dumps all URI request mappings and the controller methods to which they are mapped.
 
-http://localhost:8080/dump
+[http://localhost:8080/dump](http://localhost:8080/dump)
+
 Performs a thread dump.
 
-http://localhost:8080/trace
+[http://localhost:8080/trace](http://localhost:8080/trace)
+
 Displays trace information (by default the last few HTTP requests).
 
 
