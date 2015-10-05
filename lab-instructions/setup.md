@@ -7,7 +7,7 @@
 
 2) GitHub displays your new fork. Copy the HTTPS clone URL from your fork.
 
-3) Open a new terminal window.  Clone the following repo.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.
+3) Open a new terminal window.  Clone your fork of the `cloud-native-app-labs`.  This contains several applications used to demonstrate cloud native architectures.  Get familiar with the sub directories.  We recommend organizing your work into a `repos` directory.  A `repos` directory is where you will clone repositories and perform your work.  Throughout the labs we will reference this directory as `$REPOS_HOME`. 
 
 ```bash
 $ cd [location of your github repos, e.g. ~/repos]

@@ -71,7 +71,7 @@
 
 * `Web`
 
-3) Click the Generate Project button. Your browser will download a zip file. Unpack that zip file into a work directory.  Recommendation: `~/repos` ($USER-HOME/repo).
+3) Click the Generate Project button. Your browser will download a zip file. Unpack that zip file into the repos directory.  Recommendation: `~/repos` ($USER-HOME/repo).
 
 4) Import the project’s pom.xml into your editor/IDE of choice.
 
