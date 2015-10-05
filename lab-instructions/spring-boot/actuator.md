@@ -42,7 +42,7 @@ $ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
 
 Try out the following endpoints. The output is omitted here because it can be quite large:
 
-[http://localhost:8080/beans]
+[http://localhost:8080/beans](http://localhost:8080/beans)
 Dumps all of the beans in the Spring context.
 
 ([http://localhost:8080/autoconfig])
