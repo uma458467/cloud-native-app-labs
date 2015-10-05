@@ -7,7 +7,6 @@
 	- [What You Will Learn](#what-you-will-learn)
 	- [Exercises](#exercises)
 		- [Set up the `app-config` Repo](#set-up-the-app-config-repo)
-		- [Set up the `cloud-native-app-labs` Repo](#set-up-the-cloud-native-app-labs-repo)
 		- [Set up `config-server`](#set-up-config-server)
 		- [Set up `greeting-config`](#set-up-greeting-config)
 		- [Changing Logging Levels](#changing-logging-levels)
