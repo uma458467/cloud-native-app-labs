@@ -18,7 +18,7 @@
 greeting: Hello
 ```
 
-Spring Boot supports both configuration formats `application.properties` and `application.yml`.
+Spring Boot supports both configuration formats: traditional properties files and YAML.  YAML offers a conscise format when compared to properties files.  Additionally, support for multiple documents within one file add an added capability not present in properties files (more on this later in the lab).  For more details on externalizing configuration review the following [documentation](http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html).
 
 2) In the class `io.pivotal.spring.hello.HelloSpringBootApplication`, add a greeting field and inject its value.  This will require importing `org.springframework.beans.factory.annotation.Value`.
 
@@ -28,7 +28,7 @@ String greeting;
 ```
 
 
-3) Also `io.pivotal.spring.hello.HelloSpringBootApplication`, change the return statement of `hello()` to the following:
+3) Also within `io.pivotal.spring.hello.HelloSpringBootApplication`, change the return statement of `hello()` to the following:
 
 ```
 return String.format("%s World!", greeting);
@@ -79,7 +79,7 @@ $ set GREETING=Ohai
 $ mvn clean spring-boot:run
 ```
 
-2) Visit the application in the browser (http://localhost:8080), and verify that the output has changed to the following:
+2) Visit the application in the browser [http://localhost:8080](http://localhost:8080), and verify that the output has changed to the following:
 
 ![Ohai World](resources/images/ohai-world.png "Ohai World")
 
@@ -118,7 +118,7 @@ $ set SPRING_PROFILES_ACTIVE=spanish
 $ mvn clean spring-boot:run
 ```
 
-3) Visit the application in the browser (http://localhost:8080), and verify that the output has changed to the following:
+3) Visit the application in the browser [http://localhost:8080](http://localhost:8080), and verify that the output has changed to the following:
 
 ![Hola World](resources/images/hola-world.png "Hola World")
 
@@ -142,7 +142,7 @@ $ set GREETING=Ohai
 $ mvn clean spring-boot:run
 ```
 
-Visit the application in the browser (http://localhost:8080), and verify that the output has changed to the following:
+Visit the application in the browser [http://localhost:8080](http://localhost:8080), and verify that the output has changed to the following:
 
 ![Ohai World](resources/images/ohai-world.png "Ohai World")
 
