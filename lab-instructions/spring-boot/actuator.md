@@ -6,18 +6,16 @@
 
 ## What You Will Learn
 
-* How to use the actuator
+* How to use the endpoints that the `actuator` exposes to manage applications
 
 
 ## Exercises
 
 ### Set up the Actuator
-Change to the lab directory:
 
-$ cd $COURSE_HOME/day_01/session_01/lab_04/initial/hello-spring-boot
-Import the project’s pom.xml into your editor/IDE of choice.
+Spring Boot includes a number of additional features to help you monitor and manage your application when it’s pushed to production.  These features are added by adding `spring-boot-starter-actuator` to the classpath.
 
-To pom.xml add the following dependency to include the starter for Spring Boot Actuator:
+1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/pom.xml`.
 
 ```xml
 <dependency>
@@ -26,18 +24,14 @@ To pom.xml add the following dependency to include the starter for Spring Boot A
 </dependency>
 ```
 
+
 ### Introspection Endpoints
 
-Build the application:
+1.) Open a new terminal window.  Run the `hello-spring-boot-actuator` application:
 
-```
-$ mvn package
-```
-
-Run the application:
-
-```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+```bash
+$ cd $CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator
+$ mvn clean spring-boot:run
 ```
 
 Try out the following endpoints. The output is omitted here because it can be quite large:
@@ -52,7 +46,7 @@ Dumps all of the auto-configuration performed as part of application bootstrappi
 
 [http://localhost:8080/configprops](http://localhost:8080/configprops)
 
-Displays a collated list of all ``@ConfigurationProperties`.
+Displays a collated list of all `@ConfigurationProperties`.
 
 [http://localhost:8080/env](http://localhost:8080/env)
 
@@ -71,29 +65,48 @@ Performs a thread dump.
 Displays trace information (by default the last few HTTP requests).
 
 
-### Build and Version Control Info
-Spring Boot provides an endpoint (http://localhost:8080/info) that allows the exposure of arbitrary metadata.
+### Include Version Control Info
+
+Spring Boot provides an endpoint (http://localhost:8080/info) that allows the exposure of arbitrary metadata.  By default, it is empty.
+![info](resources/images/info.png "info")
 
 One thing that it does well is expose information about the specific build and version control coordinates for a given deployment.
 
-Add the following plugin to your Maven build. It will add Git branch and commit coordinates to the /info endpoint:
+1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/pom.xml`.  Adding the following plugin to your Maven build adds Git branch and commit coordinates to the `/info` endpoint:
 
 ```xml
 <plugin>
 	<groupId>pl.project13.maven</groupId>
 	<artifactId>git-commit-id-plugin</artifactId>
 	<configuration>
-			<dotGitDirectory>../../../../../.git</dotGitDirectory>
+			<dotGitDirectory>../.git</dotGitDirectory>
 	</configuration>
 </plugin>
 ```
 
-NOTE
-The path ../../../../../.git refers to the .git directory at the root of the course materials.
-Add the following properties to src/main/resources/application.yml:
+**NOTE**
+The path `../.git` refers to the `.git` directory at the root of the course materials.
+
+2) Run the `hello-spring-boot-actuator` application:
+
+```bash
+$ mvn clean spring-boot:run
+```
+3) Browse to [http://localhost:8080/info](http://localhost:8080/info).  Git commit information is now included.
+
+![info](resources/images/info.png "info")
+
+***What Just Happened?***
+
+By including the `git-commit-id-plugin`, details about git commit information will be included in the `/info` endpoint.  Git information is captured in a `git.properties` file that is generated with the build.  Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/target/classes/git.properties`.
+
+### Include Build Info
+
+1) Add the following properties to `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/resources/application.yml`.  _You must edit the file._
 
 ```yaml
-info:
+greeting: Hello
+info: # add this section
   build:
     artifact: @project.artifactId@
     name: @project.name@
@@ -101,55 +114,63 @@ info:
     version: @project.version@
 ```
 
-These will add the project’s Maven coordinates to the /info endpoint. The Spring Boot Maven plugin will cause them to automatically be replaced in the assembled JAR.
+These will add the project’s Maven coordinates to the `/info` endpoint. The Spring Boot Maven plugin will cause them to automatically be replaced in the assembled JAR.
 
-Build the application:
+2) Build and run the `hello-spring-boot-actuator` application:
 
 ```
 $ mvn package
+$ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 ```
 
-Run the application:
+3) Browse to [http://localhost:8080/info](http://localhost:8080/info).  Build information is now included.
+![info](resources/images/build-info.png "info")
 
-```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
-```
+***What Just Happened?***
 
-Visit the application in the browser (http://localhost:8080/info), and verify that the output is similar to the following:
-```
-{
-  build: {
-    artifact: "hello-spring-boot",
-    name: "hello-spring-boot",
-    description: "Hello Spring Boot",
-    version: "0.0.1-SNAPSHOT"
-  },
-  git: {
-    branch: "master",
-    commit: {
-      id: "a15f771",
-      time: "2015-05-03T16:51:31-0400"
-    }
-  }
-}
-```
+We have mapped Maven properties from the `pom.xml` into the `/info` endpoint.
+
+Read more about exposing data in the `/info` endpoint [here](http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready).
 
 ### Health Indicators
-Spring Boot provides an endpoint (http://localhost:8080/health) that allows for the notion of various health indicators.
 
-Normally, when Spring Security is not enabled, the /health endpoint will only expose an UP or DOWN value. To simplify working with the endpoint for this lab, we will turn off its sensitivity. Add the following to src/main/resources/application.yml:
+Spring Boot provides an endpoint [http://localhost:8080/health](http://localhost:8080/health) that allows for the notion of various health indicators.
 
-```
-endpoints:
+Normally, when Spring Security is not enabled, the `/health` endpoint will only expose an `UP` or `DOWN` value.
+![health](resources/images/health-basic.png "health")
+
+1) To simplify working with the endpoint for this lab, we will turn off its sensitivity. Add the following to `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/resources/application.yml`:
+
+```yaml
+greeting: Hello
+info:
+  build:
+    artifact: @project.artifactId@
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+endpoints: # add this section
   health:
     sensitive: false
 ```
 
-Create the class io.pivotal.spring.hello.FlappingHealthIndicator and into it paste the following code:
+2) Build and run the `hello-spring-boot-actuator` application:
 
 ```
+$ mvn package
+$ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
+```
+
+3) Browse to [http://localhost:8080/health](http://localhost:8080/health).  Out of the box is a `DiskSpaceHealthIndicator` that monitors health in terms of available disk space.  Would your Ops team like to know if the app is close to running out of disk space?  `DiskSpaceHealthIndicator` can be customized via `DiskSpaceHealthIndicatorProperties`.  For instance, setting a different threshold for when to report the status as `DOWN`.
+
+![health](resources/images/health-notsensitive.png "health")
+
+
+4) Create the class `io.pivotal.hello.FlappingHealthIndicator` (`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/FlappingHealthIndicator.java`) and into it paste the following code:
+
+```java
 @Component
-public class FlappingHealthIndicator implements HealthIndicator{
+public class FlappingHealthIndicator implements HealthIndicator {
 
     private Random random = new Random(System.currentTimeMillis());
 
@@ -167,93 +188,57 @@ public class FlappingHealthIndicator implements HealthIndicator{
 
 This demo health indicator will randomize the health check.
 
-Build the application:
+5) Build and run the `hello-spring-boot-actuator` application:
 
 ```
 $ mvn package
+$ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 ```
 
-Run the application:
-
-```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
-```
-
-Visit the application in the browser (http://localhost:8080/health), and verify that the output is similar to the following (and changes randomly!):
-```
-{
-  status: "UP",
-  flapping: {
-    status: "UP",
-    flapper: "ok",
-    random: 69
-  },
-  diskSpace: {
-    status: "UP",
-    free: 113632186368,
-    threshold: 10485760
-  }
-}
-```
+6) Browse to [http://localhost:8080/health](http://localhost:8080/health) and verify that the output is similar to the following (and changes randomly!).
+![health](resources/images/health-flapping.png "health")
 
 ### Metrics
 
-Spring Boot provides an endpoint (http://localhost:8080/metrics) that exposes several automatically collected metrics for your application. It also allows for the creation of custom metrics.
+Spring Boot provides an endpoint [http://localhost:8080/metrics](http://localhost:8080/metrics) that exposes several automatically collected metrics for your application. It also allows for the creation of custom metrics.
 
-Create the class io.pivotal.spring.hello.GreetingService and into it paste the following code:
-
-```
-@Component
-public class GreetingService {
-
-    @Autowired
-    CounterService counterService;
-
-    @Value("${greeting}")
-    String greeting;
-
-    public String getGreeting() {
-        counterService.increment("counter.services.greeting.invoked");
-        return greeting;
-    }
-}
-```
-
-This class is using the @Autowired CounterService to count the number of times that the getGreeting() method has been invoked.
-
-Refactor the contents of the class io.spring.hello.HelloSpringBootApplication:
-
-```
-@Autowired
-private GreetingService greetingService;
-
-@RequestMapping("/")
-public String hello() {
-    return String.format("%s World!", greetingService.getGreeting());
-}
-
-public static void main(String[] args) {
-    SpringApplication.run(HelloSpringBootApplication.class, args);
-}
-```
-
-hello() is now delegating the source of the greeting to our newly created GreetingService.
-
-Build the application:
+1) Build and run the `hello-spring-boot-actuator` application:
 
 ```
 $ mvn package
+$ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 ```
 
-Run the application:
+2) Browse to [http://localhost:8080/metrics](http://localhost:8080/metrics).  Review the metrics exposed.
+![metrics](resources/images/metrics.png "metrics")
+
+
+3) Let's add some custom metrics.  We have refactored the greeting into a service of its own.  Open the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/GreetingService.java'.
+
+Uncomment this line:
+```java
+		//counterService.increment("counter.services.greeting.invoked");
+```
+
+Notice `counterService`.  This service allows for any metric to be counted.
+
+```java
+   @Autowired
+	 CounterService counterService;
+```
+
+4) Review the following file to see how the `GreetingService` is called: ``$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java'
+
+5) Build and run the `hello-spring-boot-actuator` application:
 
 ```
-$ java -jar target/hello-spring-boot-0.0.1-SNAPSHOT.jar
+$ mvn package
+$ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 ```
 
-Visit the application in the browser (http://localhost:8080) and refresh the page several times.
+Visit the application in the browser [http://localhost:8080](http://localhost:8080) and refresh the page several times.
 
-Now visit the /metrics endpoint (http://localhost:8080/metrics). Among the autogenerated metrics you should see a counter for the GreetingService invocations:
+Now visit the `/metrics` endpoint [http://localhost:8080/metrics](http://localhost:8080/metrics). Among the autogenerated metrics you should see a counter for the `GreetingService` invocations:
+![metrics](resources/images/custom-metrics.png "metrics")
 
-counter.services.greeting.invoked: 16,
 To learn more about the autogenerated metrics, visit http://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-metrics.html.
