@@ -238,7 +238,7 @@ Congratulations! You have used the config-server to change the logging level of 
 
 ### Turning on a Feature with `@ConfigurationProperties`
 
-Use of `@ConfigurationProperties` is a common way to externalize and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
+Use of `@ConfigurationProperties` is a common way to externalize, group, and validate configuration in Spring applications.  `@ConfigurationProperties` beans are automatically rebound when application config is refreshed.
 
 1) Review `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingProperties.java`.  Use of the `@ConfigurationProperties` annotation allows for reading of configuration values.  Configuration keys are a combination of the `prefix` and the field names.  In this case, there is one field (`displayFortune`).  Therefore `greeting.displayFortune` is used to turn the display of fortunes on/off.  Remaining code is typical getter/setters for the fields.
 
