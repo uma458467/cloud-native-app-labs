@@ -32,7 +32,7 @@
 
 ### Add an Embedded Database
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `hsqldb` dependency, we have added embedded database support for the `hello-spring-boot-rest` application.
+1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/pom.xml`.  By adding the `hsqldb` dependency, we have added embedded database support for the `hello-spring-boot-rest` application.  This helps us get started quickly in development, as we don't have to provision a database.
 
 ```xml
 <dependency>
@@ -125,7 +125,7 @@ spring:
 
 The goal of the Spring Data REST project is to provide a solid foundation on which to expose CRUD operations to your repositories using plain HTTP REST semantics.  Read more on Spring Data REST [here](http://docs.spring.io/spring-data/rest/docs/2.4.0.RELEASE/reference/html/).
 
-For the `GreetingRepository`, Spring Data REST exposes a collection resource at /greetings. The path is derived from the uncapitalized, pluralized, simple class name of the domain class being managed. It also exposes an item resource for each of the items managed by the repository under the URI template /greetings/{id}.
+For the `GreetingRepository`, Spring Data REST exposes a collection resource at `/greetings`. The path is derived from the uncapitalized, pluralized, simple class name of the domain class being managed. It also exposes an item resource for each of the items managed by the repository under the URI template `/greetings/{id}`.
 
 We will explore the REST API, once we populate the database.
 
@@ -133,7 +133,7 @@ We will explore the REST API, once we populate the database.
 
 In many cases, you need to run some code on startup.  Spring Boot allows you capture the command line arguments and run code just as if you had implemented `public static void main(String[] args)` by implementing a `CommandLineRunner` bean.
 
-'CommandLineRunner' is a core feature to Spring Boot so there are no dependencies that need to be explicitly added.
+`CommandLineRunner` is a core feature to Spring Boot so there are no dependencies that need to be explicitly added.
 
 1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`.
 
@@ -258,3 +258,7 @@ $ cf start hello-spring-boot-rest
 ```
 
 The `hello-spring-boot-rest` application works the same as it did with an embedded database, but now it uses MySQL with no code changes.
+
+***What Just Happened?***
+
+When running locally Spring Boot will use the embedded database (`hsqldb`) and create the `DataSource` (how to connect to the database) for you.  The Cloud Foundry Java Buildpack will detect a database service binding and re-writes the `DataSource` for you when you run in the cloud, so that you can connect to your bound service.  This part of the Java Buildpack is known as auto-reconfiguration.  More details can be found [here](https://github.com/cloudfoundry/java-buildpack-auto-reconfiguration).
