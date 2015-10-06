@@ -261,4 +261,4 @@ The `hello-spring-boot-rest` application works the same as it did with an embedd
 
 ***What Just Happened?***
 
-When running locally Spring Boot will use the embedded database (`hsqldb`) and create the `DataSource` (how to connect to the database) for you.  The Cloud Foundry Java Buildpack will detect a database service binding and re-writes the `DataSource` for you when you run in the cloud, so that you can connect to your bound service.  This part of the Java Buildpack is known as auto-reconfiguration.  More details can be found [here](https://github.com/cloudfoundry/java-buildpack-auto-reconfiguration).
+When running locally Spring Boot will use the embedded database (`hsqldb`) and create the `DataSource` (how to connect to the database) for you.  The Cloud Foundry Java Buildpack will detect a database service binding and re-write the `DataSource` for you when you run in the cloud, so that you can connect to your bound service.  This part of the Java Buildpack is known as auto-reconfiguration.  More details can be found [here](https://github.com/cloudfoundry/java-buildpack-auto-reconfiguration).
