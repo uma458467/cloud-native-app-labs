@@ -23,3 +23,8 @@ OPTIONAL (BUT RECOMMENDED)
 0. [SpringSource Tool Suite] (https://spring.io/tools)
 
 0. [Json Formatter] (https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en)
+
+
+WINDOWS VM
+
+If using the Windows VM see these [requirements](windows-vm.md).
