@@ -252,7 +252,7 @@ $ cf create-service p-mysql 100mb-dev greetings-db
 
 ```bash
 $ mvn clean package
-$ cf push hello-spring-boot-rest -p target/hello-spring-boot-rest-0.0.1-SNAPSHOT.jar --random-route --no-start
+$ cf push hello-spring-boot-rest -p target/hello-spring-boot-rest-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service hello-spring-boot-rest greetings-db
 $ cf start hello-spring-boot-rest
 ```
