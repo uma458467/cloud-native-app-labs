@@ -256,6 +256,7 @@ $ cf push hello-spring-boot-rest -p target/hello-spring-boot-rest-0.0.1-SNAPSHOT
 $ cf bind-service hello-spring-boot-rest greetings-db
 $ cf start hello-spring-boot-rest
 ```
+You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI._ We can just start the `hello-spring-boot-rest` application.
 
 The `hello-spring-boot-rest` application works the same as it did with an embedded database, but now it uses MySQL with no code changes.
 
