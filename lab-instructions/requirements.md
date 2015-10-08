@@ -1,5 +1,6 @@
 ## Lab Requirements
 
+### Local machine requirements
 0. 8GB Memory
 
 0. Installation of [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -18,13 +19,13 @@
 
 0. Installation of [`cf`](https://console.run.pivotal.io/tools)
 
-OPTIONAL (BUT RECOMMENDED)
+#### Optional (but recommended)
 
 0. [SpringSource Tool Suite] (https://spring.io/tools)
 
 0. [Json Formatter] (https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa?hl=en)
 
 
-WINDOWS VM
+### Windows VM
 
 If using the Windows VM see these [requirements](windows-vm.md).
