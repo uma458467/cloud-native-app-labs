@@ -283,6 +283,8 @@ $ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 6) Browse to [http://localhost:8080/health](http://localhost:8080/health) and verify that the output is similar to the following (and changes randomly!).
 ![health](resources/images/health-flapping.png "health")
 
+7) Stop the `hello-spring-boot-actuator` application.
+
 ### Metrics
 
 Spring Boot provides an endpoint [http://localhost:8080/metrics](http://localhost:8080/metrics) that exposes several automatically collected metrics for your application. It also allows for the creation of custom metrics.
