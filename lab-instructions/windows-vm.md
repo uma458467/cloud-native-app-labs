@@ -1,6 +1,6 @@
 # Windows VM
 
-A Windows VM is available to complete the labs.
+A Windows VM is available to complete the labs.  Please let your trainer know that you need one and connectivity/credential information will be provided.
 
 ## Who Should Use the Windows VM?
 
