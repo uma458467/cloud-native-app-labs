@@ -217,7 +217,7 @@ $ mvn clean spring-boot:run
 
 ![greetings](resources/images/greetings.png "greetings")
 
-Notice that not just data is returned but links on how to navigate the API.  This is provided Spring Hateous as opposed to establishing a contract up front or use of documentation.  Read more on [HATEOUS](https://en.wikipedia.org/wiki/HATEOAS).
+Notice that not just data is returned but links on how to navigate the API.  This is provided [Spring HATEOAS](http://projects.spring.io/spring-hateoas/) as opposed to establishing a contract up front or use of documentation.  Read more on [HATEOUS](https://en.wikipedia.org/wiki/HATEOAS).
 
 4) Experiment with paging and sorting
 
