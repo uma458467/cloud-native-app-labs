@@ -249,8 +249,9 @@ $ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 
 ![health](resources/images/health-notsensitive.png "health")
 
+4) Stop the `hello-spring-boot-actuator` application.
 
-4) Create the class `io.pivotal.hello.FlappingHealthIndicator` (`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/FlappingHealthIndicator.java`) and into it paste the following code:
+5) Create the class `io.pivotal.hello.FlappingHealthIndicator` (`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/FlappingHealthIndicator.java`) and into it paste the following code:
 
 ```java
 @Component
@@ -272,7 +273,7 @@ public class FlappingHealthIndicator implements HealthIndicator {
 
 This demo health indicator will randomize the health check.
 
-5) Build and run the `hello-spring-boot-actuator` application:
+6) Build and run the `hello-spring-boot-actuator` application:
 
 ```
 $ mvn package
