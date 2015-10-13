@@ -88,7 +88,7 @@ Spring Boot provides an endpoint (http://localhost:8080/info) that allows the ex
 
 One thing that `actuator` does well is expose information about the specific build and version control coordinates for a given deployment.
 
-1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/pom.xml`.  Add the `git-commit-id-plugin` to your Maven build.  The `git-commit-id-plugin` adds Git branch and commit coordinates to the `/info` endpoint:
+1) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/pom.xml`.  Add the `git-commit-id-plugin` to your Maven build.  _You must edit the file._  The `git-commit-id-plugin` adds Git branch and commit coordinates to the `/info` endpoint:
 
 ```xml
 <plugin>
