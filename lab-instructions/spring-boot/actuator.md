@@ -208,6 +208,8 @@ $ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 3) Browse to [http://localhost:8080/info](http://localhost:8080/info).  Build information is now included.
 ![info](resources/images/build-info.png "info")
 
+4) Stop the `hello-spring-boot-actuator` application.
+
 ***What Just Happened?***
 
 We have mapped Maven properties from the `pom.xml` into the `/info` endpoint.
