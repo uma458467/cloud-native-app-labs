@@ -153,6 +153,8 @@ Visit the application in the browser [http://localhost:8080](http://localhost:80
 
 ![Ohai World](resources/images/ohai-world.png "Ohai World")
 
+2) Stop the `hello-spring-boot-external-config` application.
+
 ***What Just Happened?***
 
 Instead of returning either `greeting` value from the `application.yml`, the value from the environment variable was used.  It overrides the active profile (`SPRING_PROFILES_ACTIVE`).
