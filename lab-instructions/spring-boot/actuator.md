@@ -101,7 +101,7 @@ One thing that `actuator` does well is expose information about the specific bui
 ```
 
 **NOTE**
-The path `../.git` refers to the `.git` directory at the root of the course materials.
+The path `../.git` refers to the `.git` directory at the root of the lab materials repo.
 
 Completed:
 ```xml
