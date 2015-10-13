@@ -25,7 +25,7 @@ Please consider using this VM if you have any of the following limitations:
 
 ### Work Directory
 
-As part of the VM there is a `work directory`.  It is located at `C:\Users\Administrator\repos`.  This is where you will clone repos from GitHub.
+As part of the VM there is a `repos` directory.  It is located at `C:\Users\Administrator\repos`.  This is where you will clone repos from GitHub.  This will be referred to as $REPOS_HOME throughout the labs.
 
 ### PowerCmd
 
@@ -33,7 +33,7 @@ The Windows console is very limited in the sense that it lacks tab support, sear
 
 Therefore, also installed is an alternative to the command prompt known as [PowerCmd](http://www.powercmd.com/).
 
-We recommend using PowerCmd to execute the labs.  You can launch PowerCmd from the desktop.  It will open to your `work directory`.
+We recommend using PowerCmd to execute the labs.  You can launch PowerCmd from the desktop.  It will open to your $REPOS_HOME` directory.
 
 ![PowerCmd Tab](images/initial.png "PowerCmd Tab")
 
