@@ -153,13 +153,13 @@ $ cf create-service p-rabbitmq standard turbine-broker
 ```
 
 
-3) Package, push and bind services for `greeting-hystrix`.
+3) Package, push, bind services and set environment variables for `greeting-hystrix`.
 ```bash
 $ mvn clean package
 $ cf push greeting-hystrix -p target/greeting-hystrix-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-hystrix config-server
-$ cf bind-service greeting-hystrix service-registry
 $ cf bind-service greeting-hystrix turbine-broker
+$ cf set-env greeting-hystrix SPRING_PROFILES_ACTIVE dev
 $ cf start greeting-hystrix
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-hystrix` application.

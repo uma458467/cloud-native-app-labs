@@ -188,9 +188,10 @@ logging:
 eureka: # <--- ADD NEW SECTION
   instance:
     metadataMap:
-      instanceId: ${vcap.application.instance_id:${spring.application.name}:${server.port:8080}}
+      instanceId: ${spring.application.name}:${server.port:8080}
+
 ```
-The expression above (`eureka.instance.metadataMap.instanceId`) creates a unique `instanceId` when running locally or in PCF.  By default a client is registered with an ID that is equal to its hostname (i.e. only one service per host).  The expression above allows for multiple instances in the given environment (PCF or locally).  Keep in mind this is just an ID is does not describe how reach a given service.
+The expression for the `eureka.instance.metadataMap.instanceId` creates a unique `instanceId` when running locally.  By default a client is registered with an `instanceId` that is equal to its hostname (i.e. only one service per host).  Keep in mind this is just an ID is does not describe how reach a given service.
 
 Connectivity details are controlled via `hostname` and `nonSecurePort`.
 
@@ -331,35 +332,9 @@ $ mvn clean package
 $ cf push service-registry -p target/service-registry-0.0.1-SNAPSHOT.jar -m 512M --random-route
 ```
 
-3) Create an user provided service for the `service-registry`.  Substitute your uri.  Do not use the literal below.  For the uri please specify `http://` and no trailing `/` at the end. See example below.
-
-```bash
-$ cf cups service-registry -p uri
-$ uri> http://service-registry-unfluctuant-billionaire.cfapps.io
-```
-
 ### Update App Config for `fortune-service` and `greeting-service` to run on PCF
 
-1) In the `app-config` repo add the following to the `$APP_CONFIG_REPO_HOME/application.yml`
-
-```yml
- logging:
-   level:
-     io:
-       pivotal: DEBUG
- eureka:
-   instance:
-     metadataMap:
-       instanceId: ${vcap.application.instance_id:${spring.application.name}:${server.port:8080}}
-   client:    # <--- ADD THE CLIENT SECTION!!!
-     serviceUrl:
-       defaultZone: ${vcap.services.service-registry.credentials.uri:http://localhost:8761}/eureka/
-```
-
-`eureka.client.serviceUrl.defaultZone` describes how a client will connect with Eureka.  If the `vcap.services.service-registry.credentials.uri` environment variable is present client applications will use that, otherwise they will try to connect locally.
-
-
-2) Add a second yaml document to `application.yml`.
+1) In the `app-config` repo add a second yaml document to the `$APP_CONFIG_REPO_HOME/application.yml`
 
 ```yml
 logging:
@@ -369,23 +344,64 @@ logging:
 eureka:
   instance:
     metadataMap:
-      instanceId: ${vcap.application.instance_id:${spring.application.name}:${server.port:8080}}
-  client:
-    serviceUrl:
-      defaultZone: ${vcap.services.service-registry.credentials.uri:http://localhost:8761}/eureka/
----  # <-- ADD THIS SECTION
+      instanceId: ${spring.application.name}:${server.port:8080}
+
+--- # <--- ADD NEW DOCUMENT
+
 spring:
   profiles: cloud
 eureka:
   instance:
     hostname: ${vcap.application.uris[0]}
     nonSecurePort: 80
+    metadataMap:
+      instanceId: ${vcap.application.instance_id}
+
 ```
-When running an application with multiple instances on Cloud Foundry they all share the same `hostname` and traffic is routed to the application instances via the `router`.  This is in conflict with Eureka's default behavior of using the machine `hostname` as the way to reach a given service and similarly for the port (`nonSecurePort`).
 
-Additionally, the `Java Buildpack Auto-Reconfiguration` adds the `cloud` profile to Spring's list of active profiles.
+When deploying Spring based applications to Cloud Foundry the Java Buildpack [Auto-Reconfiguration](https://github.com/cloudfoundry/java-buildpack-auto-reconfiguration) feature adds the `cloud` profile to Spring's list of active profiles.  This new yaml document will only be applied when the `cloud` profile is active.
 
-Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the hostname when the `cloud` profile is active.  Also overridden is the port to reach the given service.
+Applications with multiple instances on Cloud Foundry all share the same `hostname` and traffic is routed to the application instances via the `router`.  This is in conflict with Eureka's default behavior of using the machine `hostname` as the way to reach a given service and similarly for the port (`nonSecurePort`).
+
+Therefore, this second yaml document overrides Eureka's default behavior of using the machine `hostname` as the way to reach a given service.  Instead we will use the first Cloud Foundry application uri as the `hostname` when the `cloud` profile is active.  Also overridden is the port to reach the given service.
+
+Lastly, just as we did locally we need to make sure the `instanceId` is unique.  In this case, we are able to use the Cloud Foundry `vcap.application.instance_id` which satisfies that requirement.
+
+
+2) Add a third yaml document to `application.yml`.  Make sure to substitute your `service-registry` uri.  Make sure to start the URI with `http://` and end with `/eureka/`.  See example below.
+
+```yml
+logging:
+  level:
+    io:
+      pivotal: DEBUG
+eureka:
+  instance:
+    metadataMap:
+      instanceId: ${spring.application.name}:${server.port:8080}
+
+---
+
+spring:
+  profiles: cloud
+eureka:
+  instance:
+    hostname: ${vcap.application.uris[0]}
+    nonSecurePort: 80
+    metadataMap:
+      instanceId: ${vcap.application.instance_id}
+
+---  # <--- ADD NEW DOCUMENT
+
+spring:
+  profiles: dev
+eureka:
+  client:    
+    serviceUrl:
+      defaultZone: http://service-registry-worrisome-counsellor.cfapps.io/eureka/ # <-- substitute your service-registry url
+
+```
+`eureka.client.serviceUrl.defaultZone` describes how a client will connect with Eureka.  This yaml document only applies when `SPRING_PROFILES_ACTIVE` includes `dev`.  Moving forward in the labs we will assume we are in development and therefore run with the `dev` profile active.
 
 ### Deploy the `fortune-service` to PCF
 
@@ -401,17 +417,21 @@ $ mvn clean package
 $ cf push fortune-service -p target/fortune-service-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
 
-3) Bind services to `fortune-service` and start the app.
+3) Bind services and set environment variables for the `fortune-service`. Then start the app.  Notice `SPRING_PROFILES_ACTIVE` is set to `dev`.
 
 ```bash
 $ cf bind-service fortune-service config-server
-$ cf bind-service fortune-service service-registry
+$ cf set-env fortune-service SPRING_PROFILES_ACTIVE dev
 $ cf start fortune-service
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `fortune-service`.
 
 4) Confirm `fortune-service` registered with the `service-registry`.  This will take a few moments.
 ![fortune-service](resources/images/cf-fortune-service.png "fortune-service")
+
+***What Just Happened?***
+
+The `fortune-service` registered with the `service-registry`, but how?  The `fortune-service` runs with two profiles active: `dev` and `cloud`.  It will pick up configuration for those two profiles plus `default` configuration.  We setup configuration in the `cloud` profile to handle running `sevice-registry` (Eureka) in Cloud Foundry.  The `dev` profile specifies how to connect to the `service-registry` when running with the `dev` profile active.
 
 ### Deploy the `greeting-service` app to PCF
 
@@ -427,11 +447,11 @@ $ mvn clean package
 $ cf push greeting-service -p target/greeting-service-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 ```
 
-3) Bind services to `greeting` and start the app.
+3) Bind services and set environment variables for the `greeting-service`. Then start the app.
 
 ```bash
 $ cf bind-service greeting-service config-server
-$ cf bind-service greeting-service service-registry
+$ cf set-env greeting-service SPRING_PROFILES_ACTIVE dev
 $ cf start greeting-service
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI.  We can just start the `greeting-service`.

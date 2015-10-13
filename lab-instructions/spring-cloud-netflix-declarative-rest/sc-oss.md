@@ -126,13 +126,13 @@ $ mvn clean spring-boot:run
 
 ### Deploy the `greeting-feign` to PCF
 
-1) Package, push and bind services for `greeting-feign`.
+1) Package, push, bind services and set environment variables for `greeting-feign`.
 
 ```
 $ mvn clean package
 $ cf push greeting-feign -p target/greeting-feign-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-feign config-server
-$ cf bind-service greeting-feign service-registry
+$ cf set-env greeting-feign SPRING_PROFILES_ACTIVE dev
 $ cf start greeting-feign
 ```
 

@@ -170,13 +170,13 @@ $ mvn clean spring-boot:run
 
 ### Deploy the `greeting-ribbon-rest` to PCF
 
-1) Package, push and bind services for `greeting-ribbon-rest`.
+1) Package, push, bind services and set environment variables for `greeting-ribbon-rest`.
 
 ```
 $ mvn clean package
 $ cf push greeting-ribbon-rest -p target/greeting-ribbon-rest-0.0.1-SNAPSHOT.jar -m 512M --random-route --no-start
 $ cf bind-service greeting-ribbon-rest config-server
-$ cf bind-service greeting-ribbon-rest service-registry
+$ cf set-env greeting-ribbon-rest SPRING_PROFILES_ACTIVE dev
 $ cf start greeting-ribbon-rest
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-ribbon-rest` application.
