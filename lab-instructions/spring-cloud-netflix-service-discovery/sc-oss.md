@@ -356,7 +356,7 @@ $ uri> http://service-registry-unfluctuant-billionaire.cfapps.io
        defaultZone: ${vcap.services.service-registry.credentials.uri:http://localhost:8761}/eureka/
 ```
 
-`client.serviceUrl.defaultZone` describes how a client will connect with Eureka.  If the `vcap.services.service-registry.credentials.uri` environment variable is present client applications will use that, otherwise they will try to connect locally.
+`eureka.client.serviceUrl.defaultZone` describes how a client will connect with Eureka.  If the `vcap.services.service-registry.credentials.uri` environment variable is present client applications will use that, otherwise they will try to connect locally.
 
 
 2) Add a second yaml document to `application.yml`.
