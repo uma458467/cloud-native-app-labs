@@ -79,7 +79,7 @@
 
 Select File > Import... Then select Maven > Existing Maven Projects. On the Import Maven Projects page, browse to your `$REPOS_HOME/hello-spring-boot` (e.g. ~/repos/hello-spring-boot).
 
-5) Add a `@RestController` annotation to the class `io.pivotal.hello.HelloSpringBootApplication`.  You will need to add the import for `org.springframework.web.bind.annotation.RestController`.
+5) Add a `@RestController` annotation to the class `io.pivotal.hello.HelloSpringBootApplication` (`$REPOS_HOME/hello-spring-boot/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`).  You will need to add the import for `org.springframework.web.bind.annotation.RestController`.
 
 
 ```java
