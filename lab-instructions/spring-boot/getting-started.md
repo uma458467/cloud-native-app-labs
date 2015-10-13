@@ -158,4 +158,5 @@ mvn clean spring-boot:run
 ![Hello World](resources/images/hello-world.png "Hello World")
 
 11) Stop the `hello-spring-boot` application.  In the terminal window: `Ctrl + C`
+
 **Congratulations!**  You’ve just completed your first Spring Boot application.
