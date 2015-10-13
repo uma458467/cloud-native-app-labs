@@ -307,11 +307,11 @@ Uncomment this line:
 		//counterService.increment("counter.services.greeting.invoked");
 ```
 
-Notice `counterService`.  This service allows for any metric to be counted.
+Notice the `counterService`.  This service allows for any metric to be counted.
 
 ```java
    @Autowired
-	 CounterService counterService;
+   CounterService counterService;
 ```
 
 4) Review the following file to see how the `GreetingService` is called: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/HelloSpringBootApplication.java`
