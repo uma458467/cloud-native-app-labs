@@ -198,7 +198,7 @@ info: # add this section
 
 These will add the project’s Maven coordinates to the `/info` endpoint. The Spring Boot Maven plugin will cause them to automatically be replaced in the assembled JAR.
 
-**NOTE:** if STS reports a problem with the file due to `@` character it can be safely ignored.
+**NOTE:** if STS reports a problem with the `application.yml` due to `@` character the problem can safely be ignored.
 
 2) Build and run the `hello-spring-boot-actuator` application:
 
