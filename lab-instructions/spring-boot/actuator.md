@@ -79,6 +79,7 @@ Performs a thread dump.
 
 Displays trace information (by default the last few HTTP requests).
 
+2) Stop the `hello-spring-boot-actuator` application.
 
 ### Include Version Control Info
 
@@ -174,6 +175,8 @@ $ mvn clean spring-boot:run
 3) Browse to [http://localhost:8080/info](http://localhost:8080/info).  Git commit information is now included.
 
 ![info](resources/images/git.png "info")
+
+4) Stop the `hello-spring-boot-actuator` application.
 
 ***What Just Happened?***
 
