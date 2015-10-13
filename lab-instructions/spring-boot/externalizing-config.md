@@ -12,8 +12,6 @@
 
 ### Refactoring to Externalize the Config
 
-Review the following file:`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-external-config/src/main/resources/application.yml`
-
 1) Review the following file:`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-external-config/src/main/resources/application.yml`.  We have refactored the `application.properties` to `application.yml`.
 
 ```yml
