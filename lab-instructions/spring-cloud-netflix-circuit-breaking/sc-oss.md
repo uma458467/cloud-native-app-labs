@@ -119,9 +119,10 @@ $ mvn clean spring-boot:run
 
 6) Stop the `fortune-service`.  And refresh the `greeting-hystrix` `/` endpoint again.  The default fortune is given.
 
-7) Restart the `fortune-service`.  And refresh the `greeting-hystrix` `/` endpoint again.  Fortunes from the `fortune-service` are back.
+7) Restart the `fortune-service`.  And refresh the `greeting-hystrix` `/` endpoint again.  After some time, fortunes from the `fortune-service` are back.
 
 ***What Just Happened?***
+
 The circuit breaker tripped because the `fortune-service` was not available.  This insulates the `greeting-hystrix` application so that our users have a better user experience.
 
 ### Set up the `greeting-hystrix` metric stream
@@ -181,4 +182,5 @@ $ mvn clean spring-boot:run
 5) Link the `hystrix-dashboard` to the `greeting-hystrix` app.  Enter `http://localhost:8080/hystrix.stream` as the stream to monitor.
 
 6) Experiment! Refresh the `greeting-hystrix` `/` endpoint several times.  Take down the `fortune-service` app.  What does the dashboard do?  Review the [dashboard doc](https://github.com/Netflix/Hystrix/wiki/Dashboard) for an explanation on metrics.
+
 ![dashboard-activity](resources/images/dashboard-activity.png "dashboard-activity")
