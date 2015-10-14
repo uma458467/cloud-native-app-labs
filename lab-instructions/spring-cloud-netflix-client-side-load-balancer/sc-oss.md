@@ -53,7 +53,7 @@ $ mvn clean spring-boot:run
 
 In this case, we don't need to explicitly include Ribbon support in the `pom.xml`.  Ribbon support is pulled in through transitive dependencies (dependencies of the dependencies we have already defined).
 
-1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `LoadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
+1) Review the the following file: `$CLOUD_NATIVE_APP_LABS_HOME/greeting-ribbon/src/main/java/io/pivotal/greeting/GreetingController.java`.  Notice the `loadBalancerClient`.  It is a client side load balancer (ribbon).  Review the `fetchFortuneServiceUrl()` method.  Ribbon is integrated with Eureka so that it can discover services as well.  Notice how the `loadBalancerClient` chooses a service instance by name.
 
 ```java
 @Controller
@@ -113,6 +113,8 @@ $ mvn clean spring-boot:run
 
 4) [Browse](http://localhost:8080/) to the `greeting-ribbon` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon` app.  See the `uri` and `serviceId` being logged.
 
+5) Stop the `greeting-ribbon` application.
+
 ### Set up `greeting-ribbon-rest`
 
 ***No additions to the pom.xml***
@@ -168,6 +170,8 @@ $ mvn clean spring-boot:run
 
 4) [Browse](http://localhost:8080/) to the `greeting-ribbon-rest` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-ribbon-rest` app.
 
+5) When done stop the `config-server`, `service-registry`, `fortune-service` and `greeting-ribbon-rest` applications.
+
 ### Deploy the `greeting-ribbon-rest` to PCF
 
 1) Package, push, bind services and set environment variables for `greeting-ribbon-rest`.
@@ -181,4 +185,12 @@ $ cf start greeting-ribbon-rest
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect_ message from the CLI. We can just start the `greeting-ribbon-rest` application.
 
-2) Refresh the `greeting-ribbon-rest` `/` endpoint.
+2) After the a few moments, check the `service-registry`.  Confirm the `greeting-ribbon-rest` app is registered.
+
+3) Refresh the `greeting-ribbon-rest` `/` endpoint.
+
+**Note About This Lab**
+
+Because services (e.g. `fortune-service`) are exposing their `hostname` as the first Cloud Foundry URI (see [Service Discovery Lab](../spring-cloud-netflix-service-discovery/sc-oss.md)) this means that requests to them are being routed through the `router` and subsequently load balanced at that layer.  Therefore, client side load balancing doesn't occur.  
+
+Pivotal Cloud Foundry has recently added support for allowing cross container communication.  This will allow applications to communicate with each other without passing through the `router`.  As applied to client-side load balancing, services such as `fortune-service` would register with Eureka using their container IP addresses.  Allowing clients to reach them without going through the `router`.

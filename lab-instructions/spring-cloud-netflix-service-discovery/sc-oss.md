@@ -316,7 +316,7 @@ $ mvn clean spring-boot:run
 
 The `greeting-service` application was able to discover how to reach the `fortune-service` via the `service-registry` (Eureka).
 
-8) When done stop the `config-server`, `fortune-service` and `greeting-service` applications.
+8) When done stop the `config-server`, `service-registry`, `fortune-service` and `greeting-service` applications.
 
 ### Deploy the `service-registry` to PCF
 
