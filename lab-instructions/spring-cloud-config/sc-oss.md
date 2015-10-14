@@ -319,7 +319,7 @@ Congratulations! You have turned on a feature using the config-server.
 
 ### Reinitializing Beans with `@RefreshScope`
 
-Now you will use the config-server to obtain a service uri rather than hardcoding it your application code.
+Now you will use the config-server to obtain a service URI rather than hardcoding it your application code.
 
 Beans annotated with the `@ResfreshScope` will be recreated when refreshed so they can pick up new config values.
 
@@ -383,7 +383,7 @@ Note where the data is being served from: `http://quote-service-dev.cfapps.io/qu
 2) Set the active profile to qa for the `greeting-config` application.  In the example below, we use an environment variable to set the active profile.
 
 ```bash
-[mac]
+[mac, linux]
 $ SPRING_PROFILES_ACTIVE=qa mvn clean spring-boot:run
 
 [windows]
@@ -524,10 +524,15 @@ $ cf push greeting-config -p target/greeting-config-0.0.1-SNAPSHOT.jar -i 3
 `/` endpoint several times in your browser and tailing the logs.
 
 ```bash
+[mac, linux]
 $ cf logs greeting-config | grep GreetingController
+
+[windows]
+$ cf logs greeting-config
+# then search output for "GreetingController"
 ```
 
-All app instances are creating debug statements:
+All app instances are creating debug statements.  Notice the `[App/X]`.  It denotes which app instance is logging.
 
 ```
 2015-09-28T20:53:06.07-0500 [App/2]      OUT 2015-09-29 01:53:06.071 DEBUG 34 --- [io-64495-exec-6] io.pivotal.greeting.GreetingController   : Adding fortune
@@ -546,7 +551,7 @@ logging:
       pivotal: INFO
 ```
 
-8) Notify applications to pickup the change.  Send a POST to the `greeting-config` `/bus/refresh` endpoint.  Use your url not the literal below.
+8) Notify applications to pickup the change.  Send a POST to the `greeting-config` `/bus/refresh` endpoint.  Use your `greeting-config` URL not the literal below.
 ```bash
 $ curl -X POST http://greeting-config-hypodermal-subcortex.cfapps.io/bus/refresh
 ```
