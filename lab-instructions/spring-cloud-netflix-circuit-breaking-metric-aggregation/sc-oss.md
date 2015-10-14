@@ -95,7 +95,7 @@ public class TurbineApplication {
 }
 ```
 
-3). Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/turbine/src/main/resources/bootstrap.yml`.  `turbine.appConfig` is a list of eureka serviceIds that turbine will use to lookup instances.  `turbine.aggregator.clusterConfig` is the turbine cluster these services belong to (how they will be ).
+3). Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/turbine/src/main/resources/bootstrap.yml`.  `turbine.appConfig` is a list of Eureka `serviceIds` that Turbine will use to lookup instances.  `turbine.aggregator.clusterConfig` is the Turbine cluster these services belong to (how they will be grouped).
 
 ```yml
 spring:
@@ -125,6 +125,8 @@ $ mvn clean spring-boot:run
 7) Configure the [`hystrix-dashboard`](http://localhost:8686/hystrix) to consume the turbine stream.  Enter `http://localhost:8585/turbine.stream?cluster=GREETING-HYSTRIX`
 
 8) Experiment! Refresh the `greeting-hystrix` `/` endpoint several times.  Take down the `fortune-service` app.  What does the dashboard do?
+
+9) When done, stop the `config-server`, `service-registry`, `fortune-service`, `greeting-hystrix`, `hystrix-dashboard` and `turbine` applications.
 
 ***What Just Happened?***
 
@@ -219,6 +221,6 @@ $ mvn clean package
 $ cf push hystrix-dashboard -p target/hystrix-dashboard-0.0.1-SNAPSHOT.jar -m 512M --random-route
 ```
 
-2) Configure the `hystrix-dashboard` (i.e `http://your-hystrix-url/hystrix`) to consume the turbine stream.  Enter your `turbine-amqp` url .
+2) Configure the `hystrix-dashboard` (i.e `http://your-hystrix-url/hystrix`) to consume the turbine stream.  Enter your `turbine-amqp` URL.
 
 3) Experiment! Refresh the `greeting-hystrix` `/` endpoint several times.  Take down the `fortune-service` app.  Scale the `greeting-hystrix` app.  What does the dashboard do?
