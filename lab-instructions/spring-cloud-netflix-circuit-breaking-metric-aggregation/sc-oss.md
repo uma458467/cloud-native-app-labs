@@ -134,7 +134,7 @@ Turbine discovered the `greeting-hystrix` application through the `service-regis
 
 ### Deploying to PCF
 
-In PCF the classic Turbine model of pulling metrics from all the distributed Hystrix commands doesn’t work.  This is because every application has the same `hostname` (every app instance has the same url).  The problem is solved with Turbine AMQP.  Metrics are published through a message broker.  We'll use RabbitMQ.
+In PCF, the traditional Turbine model of pulling metrics from all the distributed Hystrix enabled applications doesn’t work.  This is because every application has the same `hostname` (every app instance has the same URL for a given app).  The problem is solved with Turbine AMQP.  Metrics are published through a message broker.  We'll use RabbitMQ.
 
 
 ### Deploy `greeting-hystrix` to PCF
