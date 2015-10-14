@@ -24,7 +24,7 @@
 
 ## What You Will Learn
 
-* How to embed Eureka in Spring Boot application
+* How to embed Eureka in a Spring Boot application
 * How to register services (`greeting-service` and `fortune-service`) with Eureka
 * How to discover services (`fortune-service`) with Eureka
 
@@ -51,7 +51,7 @@ In the Spring Cloud Config Lab, we used application specific configuration files
 * One based on the application name `greeting-config.yml`
 * One based on the application name + profile `greeting-config-qa.yml`
 
-Application specific files override configuration in the `application.yml`.
+Application specific files override configuration settings in the `application.yml`.
 
 ### Set up `config-server`
 
@@ -117,7 +117,7 @@ Standlalone mode still offers a high degree of resilience with:
 
 * Heartbeats between the client and server to keep registrations up to date
 * Client side caching, so that clients don't go to Eureka for every lookup
-* Running in an Elastic Runtime (Cloud Foundry) that keeps applications up
+* By running in an Elastic Runtime (Cloud Foundry) that keeps applications up running by design
 
 With the above configuration, we have configured Eureka to run in standalone mode.
 
@@ -126,7 +126,7 @@ With the above configuration, we have configured Eureka to run in standalone mod
 * `eureka.instance.hostname` - the hostname for this service (Eureka instance)
 * `eureka.client.registerWithEureka` - should this application (Eureka instance) register with Eureka
 * `eureka.client.fetchRegistry` - should  this application (Eureka instance) fetch the registry (for how to discover services)
-* `eureka.client.serviceUrl.defaultZone` - the Eureka instance to use.  Notice it is pointing to itself.
+* `eureka.client.serviceUrl.defaultZone` - the Eureka instance to use.  Notice it is pointing to itself (`localhost`, `8761`).
 
 
 4) Open a new terminal window.  Start the `service-registry`.
@@ -292,7 +292,7 @@ public class GreetingController {
 	    logger.debug("instanceID: {}", instance.getId());
 
 	    String fortuneServiceUrl = instance.getHomePageUrl();
-		  logger.debug("fortune service url: {}", fortuneServiceUrl);
+		  logger.debug("fortune service homePageUrl: {}", fortuneServiceUrl);
 
 	    return fortuneServiceUrl;
 	}
@@ -310,7 +310,7 @@ $ mvn clean spring-boot:run
 6) After the a few moments, check the `service-registry` [dashboard](http://localhost:8761).  Confirm the `greeting-service` app is registered.
 ![greeting](resources/images/greeting.png "greeting")
 
-7) [Browse](http://localhost:8080/) to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-service`.  See the `fortune-service` instanceId and url being logged.
+7) [Browse](http://localhost:8080/) to the `greeting-service` application.  Confirm you are seeing fortunes.  Refresh as desired.  Also review the terminal output for the `greeting-service`.  See the `fortune-service` `instanceId` and `homePageUrl` being logged.
 
 ***What Just Happened?***
 
@@ -474,8 +474,13 @@ $ cf scale fortune-service -i 3
 
 3) Tail the logs for the `greeting-service` application.
 
-```
+```bash
+[mac, linux]
 $ cf logs greeting-service | grep GreetingController
+
+[windows]
+$ cf logs greeting-service
+# then search output for "GreetingController"
 ```
 
 4) Refresh the `greeting-service` `/` endpoint.
@@ -485,15 +490,14 @@ $ cf logs greeting-service | grep GreetingController
 ```
 2015-09-01T09:54:58.57-0500 [App/2]      OUT 2015-09-01 14:54:58.574 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : Adding greeting
 2015-09-01T09:54:58.58-0500 [App/2]      OUT 2015-09-01 14:54:58.589 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : instanceID: fortune-service-tympanic-nonvoter.cfapps.io:ab631fe181724ecb8c065ae6e1de8ee9
-2015-09-01T09:54:58.58-0500 [App/2]      OUT 2015-09-01 14:54:58.589 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : fortune service url: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
+2015-09-01T09:54:58.58-0500 [App/2]      OUT 2015-09-01 14:54:58.589 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
 2015-09-01T09:54:58.60-0500 [App/2]      OUT 2015-09-01 14:54:58.606 DEBUG 33 --- [io-63979-exec-8] io.pivotal.greeting.GreetingController   : Adding fortune
 2015-09-01T09:55:42.73-0500 [App/2]      OUT 2015-09-01 14:55:42.739 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : Adding greeting
 2015-09-01T09:55:42.75-0500 [App/2]      OUT 2015-09-01 14:55:42.750 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : instanceID: fortune-service-tympanic-nonvoter.cfapps.io:0ec2298e890a45bf81932ec0792a64e2
-2015-09-01T09:55:42.75-0500 [App/2]      OUT 2015-09-01 14:55:42.750 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : fortune service url: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
+2015-09-01T09:55:42.75-0500 [App/2]      OUT 2015-09-01 14:55:42.750 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
 2015-09-01T09:55:42.76-0500 [App/2]      OUT 2015-09-01 14:55:42.761 DEBUG 33 --- [io-63979-exec-2] io.pivotal.greeting.GreetingController   : Adding fortune
 2015-09-01T09:55:57.30-0500 [App/1]      OUT 2015-09-01 14:55:57.308 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : Adding greeting
 2015-09-01T09:55:57.33-0500 [App/1]      OUT 2015-09-01 14:55:57.335 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : instanceID: fortune-service-tympanic-nonvoter.cfapps.io:3131d8b3598c4093a599b05e881c0063
-2015-09-01T09:55:57.33-0500 [App/1]      OUT 2015-09-01 14:55:57.336 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : fortune service url: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
+2015-09-01T09:55:57.33-0500 [App/1]      OUT 2015-09-01 14:55:57.336 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : fortune service homePageUrl: http://fortune-service-tympanic-nonvoter.cfapps.io:80/
 2015-09-01T09:55:57.35-0500 [App/1]      OUT 2015-09-01 14:55:57.355 DEBUG 34 --- [io-61136-exec-4] io.pivotal.greeting.GreetingController   : Adding fortune
-^C
 ```
