@@ -93,7 +93,7 @@ Note the `@EnableConfigServer` annotation.  That embeds the config-server.
 ```
 Make sure to substitute your forked app-config repository. Do not use the literal above.
 
-4) Start the `config-server`.
+4) Open a terminal window and start the `config-server`.
 
 ```bash
 $ cd $CLOUD_NATIVE_APP_LABS_HOME/config-server
