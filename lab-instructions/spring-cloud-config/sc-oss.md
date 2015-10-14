@@ -209,7 +209,7 @@ quoteServiceURL: http://quote-service-dev.cfapps.io/quote
 ```
 This file has several configuration parameters that will be used throughout this lab.  For this exercise, we have set the log level for classes in the `io.pivotal` package to `DEBUG`.
 
-3) While watching the `greeting-config` terminal, refresh the [http://localhost:8080](http://localhost:8080/) url.  Notice there are no DEBUG logs yet.
+3) While watching the `greeting-config` terminal, refresh the [http://localhost:8080](http://localhost:8080/) url.  Notice there are no `DEBUG` logs yet.
 
 4) Does the `config-server` see the change in your git repo?  Let's check what the `config-server` is serving.  Browse to [http://localhost:8888/greeting-config/default](http://localhost:8888/greeting-config/default)
 
