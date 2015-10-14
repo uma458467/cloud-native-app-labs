@@ -226,7 +226,7 @@ The propertySources value has changed!  The `config-server` has picked up the ch
 </dependency>
 ```
 
-6) For the `greeting-config` application to pick up the configuration changes, it must be told to do so.  Notify `greeting-config` app to pick up the new config by POSTing to the `greeting-config` `/refresh` endpoint.
+6) For the `greeting-config` application to pick up the configuration changes, it must be told to do so.  Notify `greeting-config` app to pick up the new config by POSTing to the `greeting-config` `/refresh` endpoint.  Open a new terminal window and execute the following:
 
 ```bash
 $ curl -X POST http://localhost:8080/refresh
