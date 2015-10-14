@@ -45,7 +45,7 @@ public class GreetingController {
 	    logger.debug("instanceID: {}", instance.getId());
 
 	    String fortuneServiceUrl = instance.getHomePageUrl();
-		logger.debug("fortune service url: {}", fortuneServiceUrl);
+		logger.debug("fortune service homePageUrl: {}", fortuneServiceUrl);
 
 	    return fortuneServiceUrl;
 	}	
