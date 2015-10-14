@@ -119,7 +119,7 @@ Yaml supports having multiple documents in one file.  The first document is the 
 $ SPRING_PROFILES_ACTIVE=spanish mvn clean spring-boot:run
 
 [windows]
-//remove GREETING env variable
+#remove GREETING env variable
 $ set GREETING=
 $ set SPRING_PROFILES_ACTIVE=spanish
 $ mvn clean spring-boot:run
