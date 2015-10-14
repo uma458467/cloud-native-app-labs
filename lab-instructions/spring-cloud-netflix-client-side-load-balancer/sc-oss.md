@@ -191,6 +191,6 @@ You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable cha
 
 **Note About This Lab**
 
-Because services (e.g. `fortune-service`) are exposing their `hostname` as the first Cloud Foundry URI (see [Service Discovery Lab](../spring-cloud-netflix-service-discovery/sc-oss.md)) this means that requests to them are being routed through the `router` and subsequently load balanced at that layer.  Therefore, client side load balancing doesn't occur.  
+Because services (e.g. `fortune-service`) are exposing their `hostname` as the first Cloud Foundry URI (see [Service Discovery Lab](../spring-cloud-netflix-service-discovery/sc-oss.md#deploy-the-service-registry-to-pcf)) this means that requests to them are being routed through the `router` and subsequently load balanced at that layer.  Therefore, client side load balancing doesn't occur.  
 
 Pivotal Cloud Foundry has recently added support for allowing cross container communication.  This will allow applications to communicate with each other without passing through the `router`.  As applied to client-side load balancing, services such as `fortune-service` would register with Eureka using their container IP addresses.  Allowing clients to reach them without going through the `router`.
