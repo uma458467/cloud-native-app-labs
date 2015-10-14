@@ -175,7 +175,7 @@ Configuration parameters/values will be added as we move through the lab.
 
 As your first use of the config-server, you will change the logging level of the greeting-config application.
 
-1) View the `getGreeting()` method of  `$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`
+1) View the `getGreeting()` method of the `GreetingController` class (`$CLOUD_NATIVE_APP_LABS_HOME/greeting-config/src/main/java/io/pivotal/greeting/GreetingController.java`)
  ```java
 @RequestMapping("/")
 String getGreeting(Model model){
