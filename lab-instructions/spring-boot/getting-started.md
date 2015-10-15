@@ -146,7 +146,7 @@ mvn clean spring-boot:run
 
 ```
 2015-10-02 13:26:59.264  INFO 44749 --- [lication.main()] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
-2015-10-02 13:26:59.267  INFO 44749 --- [lication.main()] i.p.hello.HelloSpringBootApplication     : Started HelloSpringBootApplication in 2.541 seconds (JVM running for 9.141)
+2015-10-02 13:26:59.267  INFO 44749 --- [lication.main()] io.pivotal.hello.HelloSpringBootApplication     : Started HelloSpringBootApplication in 2.541 seconds (JVM running for 9.141)
 ```
 
 4) Browse to: [http://localhost:8080/](http://localhost:8080/)
