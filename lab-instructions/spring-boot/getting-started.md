@@ -95,7 +95,7 @@ Try the `quick-fix` (magic shortcut) command:
 
 Other helpful [shortcuts](https://blog.codecentric.de/en/2012/08/my-top-10-shortcuts-for-eclipse-on-mac-os-x-and-windows-and-how-you-survive-the-change-from-windows-to-mac/).
 
-2) Add the following request handler to the class `io.pivotal.hello.HelloSpringBootApplication`.
+2) Add the following request handler to the class `io.pivotal.HelloSpringBootApplication` (`$REPOS_HOME/hello-spring-boot/src/main/java/io/pivotal/HelloSpringBootApplication.java`).
 
 ```java
 @RequestMapping("/")
