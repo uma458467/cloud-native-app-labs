@@ -22,7 +22,7 @@
 ## What You Will Learn
 
 * How to use repositories for data access
-* How to use expose a REST API on top on those repositories
+* How to expose a REST API on top of those repositories
 * How to use an embedded database for development
 * How to use a production ready database in production
 * How to gain access to the command line arguments and run specific code once
@@ -57,7 +57,7 @@ To read more on Spring Data JPA go [here](http://docs.spring.io/spring-data/jpa/
 </dependency>
 ```
 
-2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/Greeting.java`.  This is a typical JPA domain (`Entity`) class.  This class represents one row in in our `greeting` table.
+2) Review the following file: `$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-rest/src/main/java/io/pivotal/hello/Greeting.java`.  This is a typical JPA domain (`Entity`) class.  This class represents one row in our `greeting` table.
 
 ```java
 @Entity
@@ -264,4 +264,3 @@ The `hello-spring-boot-rest` application works the same as it did with an embedd
 ***What Just Happened?***
 
 When running locally Spring Boot will use the embedded database (`hsqldb`) and create the `DataSource` (how to connect to the database) for you.  The Cloud Foundry Java Buildpack will detect a database service binding and re-write the `DataSource` for you when you run in the cloud, so that you can connect to your bound service.  This part of the Java Buildpack is known as auto-reconfiguration.  More details can be found [here](https://github.com/cloudfoundry/java-buildpack-auto-reconfiguration).
-

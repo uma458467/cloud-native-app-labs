@@ -191,7 +191,7 @@ eureka: # <--- ADD NEW SECTION
       instanceId: ${spring.application.name}:${server.port:8080}
 
 ```
-The expression for the `eureka.instance.metadataMap.instanceId` creates a unique `instanceId` when running locally.  By default a client is registered with an `instanceId` that is equal to its hostname (i.e. only one service per host).  Keep in mind this is just an ID is does not describe how reach a given service.
+The expression for the `eureka.instance.metadataMap.instanceId` creates a unique `instanceId` when running locally.  By default a client is registered with an `instanceId` that is equal to its hostname (i.e. only one service per host).  Keep in mind this is just an ID, it does not describe how to reach a given service.
 
 Connectivity details are controlled via `hostname` and `nonSecurePort`.
 
