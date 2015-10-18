@@ -15,6 +15,8 @@
 		- [Deploy to PCF with No Code Changes But Use MySQL](#deploy-to-pcf-with-no-code-changes-but-use-mysql)
 <!-- /TOC -->
 
+Estimated Time: 45 minutes
+
 ## Requirements
 
 [Lab Requirements](../requirements.md)
@@ -242,14 +244,20 @@ We know that we don't want to use our embedded database when we deploy our appli
 </dependency>
 ```
 
-2) Create a MySQL service instance.
+2) Login the Pivotal Cloud Foundry installation. Your instructor will provide login information.
+
+```
+$ cf login
+```
+
+3) Create a MySQL service instance.
 
 ```
 $ cf create-service p-mysql 100mb-dev greetings-db
 ```
 
 
-3) Deploy your the `hello-spring-boot-rest` application:
+4) Deploy your `hello-spring-boot-rest` application:
 
 ```bash
 $ mvn clean package
