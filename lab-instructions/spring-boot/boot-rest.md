@@ -267,7 +267,7 @@ $ cf start hello-spring-boot-rest
 ```
 You can safely ignore the _TIP: Use 'cf restage' to ensure your env variable changes take effect message from the CLI._ We can just start the `hello-spring-boot-rest` application.
 
-5) View the [URI of PCF app]/greetings endpoint to verify the PCF application is working. The `hello-spring-boot-rest` application works the same as it did with an embedded database, but now it uses MySQL with no code changes.
+5) View the [URI of PCF app]/greetings endpoint to verify that the PCF application is working. The `hello-spring-boot-rest` application works the same as it did with an embedded database, but now it uses MySQL with no code changes.
 
 ***What Just Happened?***
 
