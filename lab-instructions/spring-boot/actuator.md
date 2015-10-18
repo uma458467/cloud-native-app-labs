@@ -14,6 +14,8 @@
 		- [Metrics](#metrics)
 <!-- /TOC -->
 
+Estimated Time: 30 minutes
+
 ## Requirements
 
 [Lab Requirements](../requirements.md)

@@ -8,6 +8,8 @@
 
 * How to externalize configuration in a Spring Boot project
 
+Estimated time: 25 minutes
+
 ## Exercises
 
 ### Refactoring to Externalize the Config

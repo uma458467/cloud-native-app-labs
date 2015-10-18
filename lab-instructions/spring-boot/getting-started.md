@@ -11,6 +11,8 @@
 		- [Run the `hello-spring-boot` Application](#run-the-hello-spring-boot-application)
 <!-- /TOC -->
 
+Estimated time: 25 minutes
+
 ## Requirements
 
 [Lab Requirements](../requirements.md)
