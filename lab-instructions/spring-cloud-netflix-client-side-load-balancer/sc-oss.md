@@ -12,6 +12,8 @@
 		- [Deploy the `greeting-ribbon-rest` to PCF](#deploy-the-greeting-ribbon-rest-to-pcf)
 <!-- /TOC -->
 
+Estimated Time: 25 minutes
+
 ## Requirements
 
 [Lab Requirements](../requirements.md)

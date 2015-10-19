@@ -12,6 +12,8 @@
 		- [Set up `hystrix-dashboard`](#set-up-hystrix-dashboard)
 <!-- /TOC -->
 
+Estimated Time: 25 minutes
+
 ## Requirements
 
 [Lab Requirements](../requirements.md)

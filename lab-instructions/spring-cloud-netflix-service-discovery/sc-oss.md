@@ -17,6 +17,7 @@
 		- [Deploy the `greeting-service` app to PCF](#deploy-the-greeting-service-app-to-pcf)
 		- [Scale the `fortune-service`](#scale-the-fortune-service)
 <!-- /TOC -->
+Estimated Time: 45 minutes
 
 ## Requirements
 

@@ -14,6 +14,8 @@
 		- [Deploy `hystrix-dashboard` to PCF](#deploy-hystrix-dashboard-to-pcf)
 <!-- /TOC -->
 
+Estimated Time: 25 minutes
+
 ## Requirements
 
 [Lab Requirements](../requirements.md)
