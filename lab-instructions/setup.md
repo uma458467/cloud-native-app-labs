@@ -17,7 +17,7 @@ $ cd cloud-native-app-labs
 
 `$REPOS_HOME/cloud-native-app-labs` will be referred to `$CLOUD_NATIVE_APP_LABS_HOME` throughout the labs.
 
-2) OPTIONAL STEP - Import applications into your IDE such as Spring Tool Suite (STS).  Importing projects at the `cloud-native-app-labs` level is recommended because there are several projects. Otherwise, use your favorite editor.
+4) OPTIONAL STEP - Import applications into your IDE such as Spring Tool Suite (STS).  Importing projects at the `cloud-native-app-labs` level is recommended because there are several projects. Otherwise, use your favorite editor.
 
 *STS Import Help:*
 
