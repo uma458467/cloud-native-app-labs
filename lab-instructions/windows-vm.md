@@ -10,7 +10,9 @@ A Windows VM is available to complete the labs.
 
 3) The AMI can be found be searching for `WinServer08STS` in the EC2 Dashboard.
 
-Launch the AMI named “WinServer08STS”. In AWS, in the EC2 dashboard, select (or search for the public image) Images > AMIs > WinServer08STS. Click Launch.
+Launch the AMI named `WinServer08STS`. In AWS, in the EC2 dashboard, select (or search for the public image) Images > AMIs > WinServer08STS. Click Launch.
+
+**NOTE** AMI pick the AMI with the greatest number appended to the AMI Name.  In this case, `WinServer08STS7`
 ![search for ami](images/ami.png)
 
 4) When launching, accept defaults except:
@@ -25,7 +27,7 @@ Launch the AMI named “WinServer08STS”. In AWS, in the EC2 dashboard, select 
 
 Once the instance is running, select it in list of EC2 instances. Obtain the Public IP.
 
-6) Credential information will be provided by your trainer.
+6) Credential information (user/password) will be provided by your trainer.
 
 ## Who Should Use the Windows VM?
 
