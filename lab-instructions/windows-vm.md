@@ -1,6 +1,31 @@
 # Windows VM
 
-A Windows VM is available to complete the labs.  Please let your trainer know that you need one and connectivity/credential information will be provided.
+A Windows VM is available to complete the labs.
+
+## Windows VM AMI Details
+
+1) User must have access to an AWS account (can run from any account)
+
+2) User must have an existing key pair in the account or create one
+
+3) The AMI can be found be searching for `WinServer08STS` in the EC2 Dashboard.
+
+Launch the AMI named “WinServer08STS”. In AWS, in the EC2 dashboard, select (or search for the public image) Images > AMIs > WinServer08STS. Click Launch.
+![search for ami](images/ami.png)
+
+4) When launching, accept defaults except:
+
+1. Step 2: Choose an Instance Type > m4.large (8 GB memory) (note: see "Changing memory size" below to change this later)
+
+1. Step 3: Configure Instance Details > Auto-assign Public IP > Enable
+
+1. Step 5: Tag Instance > Key: Name Value: “windows<studentname>” or “windows<studentnumber>” This will show up as the EC2 instance name
+
+5) Launch the instance
+
+Once the instance is running, select it in list of EC2 instances. Obtain the Public IP.
+
+6) Credential information will be provided by your trainer.
 
 ## Who Should Use the Windows VM?
 
