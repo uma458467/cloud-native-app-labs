@@ -258,6 +258,14 @@ $ java -jar target/hello-spring-boot-actuator-0.0.1-SNAPSHOT.jar
 5) Create the class `io.pivotal.hello.FlappingHealthIndicator` (`$CLOUD_NATIVE_APP_LABS_HOME/hello-spring-boot-actuator/src/main/java/io/pivotal/hello/FlappingHealthIndicator.java`) and into it paste the following code:
 
 ```java
+package io.pivotal.hello;
+
+import java.util.Random;
+
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.stereotype.Component;
+
 @Component
 public class FlappingHealthIndicator implements HealthIndicator {
 
