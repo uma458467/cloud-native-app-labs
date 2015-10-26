@@ -17,7 +17,7 @@ Launch the AMI named `WinServer08STS`. In AWS, in the EC2 dashboard, select (or 
 
 4) When launching, accept defaults except:
 
-1. Step 2: Choose an Instance Type > m4.large (8 GB memory) (note: see "Changing memory size" below to change this later)
+1. Step 2: Choose an Instance Type > m4.large (8 GB memory)
 
 1. Step 3: Configure Instance Details > Auto-assign Public IP > Enable
 
