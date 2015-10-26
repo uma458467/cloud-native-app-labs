@@ -8,7 +8,7 @@ A Windows VM is available to complete the labs.
 
 2) User must have an existing key pair in the account or create one
 
-3) The AMI can be found be searching for `WinServer08STS` in the EC2 Dashboard.
+3) The AMI can be found be searching for `WinServer08STS` in the EC2 Dashboard.  Must be in the N. Virginia region.
 
 Launch the AMI named `WinServer08STS`. In AWS, in the EC2 dashboard, select (or search for the public image) Images > AMIs > WinServer08STS. Click Launch.
 
