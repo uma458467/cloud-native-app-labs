@@ -11,7 +11,7 @@
 
 1. Access to Pivotal Cloud Foundry Environment
 
-1. 8 GB of Memory Quota available
+1. 6 GB of Memory Quota available
 
 ### Local machine requirements
 
